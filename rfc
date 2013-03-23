@@ -1,44 +1,89 @@
 #! /usr/bin/env bash
+#
+# rfc
+#
+# Author: Baptiste Fontaine
+# License: MIT
+# Version: 0.0.2
+#
+# URI: github.com/bfontaine/rfc
+#
 
-print_rfc() {
-    less "$HOME/.RFCs/$1"
-}
+__rfc() {
 
-if [ $# -gt 0 ]; then
+    local VERSION='0.0.2'
+    local rfc_dir="$HOME/.RFCs"
 
-    mkdir -p $HOME/.RFCs
-    touch $HOME/.RFCs/_404s
+    print_rfc() {
+        less "$rfc_dir/$1"
+    }
 
-    if [ `grep "$1" $HOME/.RFCs/_404s` ]; then
+    get_rfc() {
+        curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt > "$rfc_dir/${1}"
+    }
 
-        echo "There\'s no such RFC, sorry."
+    init_rfc_dir() {
 
-    elif [ ! -f "$HOME/.RFCs/$1" ]; then
+        mkdir -p $rfc_dir
+        touch $rfc_dir/_404s
 
-        curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt > "$HOME/.RFCs/${1}"
+    }
 
-        if [ $? -eq 22 ]; then
+    print_usage() {
+        echo "Usage:
+    rfc <RFC number>"
+    }
 
-            echo "$1" >> "$HOME/.RFCs/_404s"
-            echo "There\'s no such RFC, sorry."
+    print_version() {
+        echo "rfc v$VERSION - github.com/bfontaine/rfc"
+    }
 
-            [ ! -s "$HOME/.RFCs/$1" ] && rm -f "$HOME/.RFCs/$1"
+    if [ $# -eq 0 ]; then
+        print_usage
+        return
+    fi
 
-        else
+    ###
 
-            print_rfc $*
+    init_rfc_dir
+
+    case "$1" in
+
+        -v|--version)
+            print_version
+            return ;;
+
+        _404s)
+            print_usage
+            return ;;
+
+        *)
+        grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
+        if [ $? -eq 0 ]; then
+
+            echo "There's no such RFC, sorry."
+            return
+
+        elif [ ! -f "$rfc_dir/$1" ]; then
+
+            get_rfc $1
+
+            if [ $? -eq 22 ]; then
+
+                echo "$1" >> "$rfc_dir/_404s"
+                echo "There's no such RFC, sorry."
+
+                [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
+
+                return
+            fi
 
         fi
     
-    else
-        print_rfc $*
+        print_rfc $* ;;
+    esac
 
-    fi
+}
 
-else
-
-    echo "Usage:
-    rfc <RFC number>"
-
-fi
+__rfc $*
 
