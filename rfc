@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+
+print_rfc() {
+    less "$HOME/.RFCs/$1"
+}
+
+if [ $# -gt 0 ]; then
+
+    mkdir -p $HOME/.RFCs
+    touch $HOME/.RFCs/_404s
+
+    if [ `grep "$1" $HOME/.RFCs/_404s` ]; then
+
+        echo "There\'s no such RFC, sorry."
+
+    elif [ ! -f "$HOME/.RFCs/$1" ]; then
+
+        curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt > "$HOME/.RFCs/${1}"
+
+        if [ $? -eq 22 ]; then
+
+            echo "$1" >> "$HOME/.RFCs/_404s"
+            echo "There\'s no such RFC, sorry."
+
+            [ ! -s "$HOME/.RFCs/$1" ] && rm -f "$HOME/.RFCs/$1"
+
+        else
+
+            print_rfc $*
+
+        fi
+    
+    else
+        print_rfc $*
+
+    fi
+fi
+
