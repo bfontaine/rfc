@@ -34,5 +34,11 @@ if [ $# -gt 0 ]; then
         print_rfc $*
 
     fi
+
+else
+
+    echo "Usage:
+    rfc <RFC number>"
+
 fi
 
