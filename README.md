@@ -1,6 +1,6 @@
 # rfc
 
-**rfc** is a little tool written in Bash to read [RFCs][ietf-rfc] from the
+`rfc` is a little tool written in Bash to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs from the Web, then cache them locally, so each RFC
 is fetched only once.
 
@@ -24,6 +24,8 @@ rfc 1234 # Read the RFC 1234
 ```
 curl -sL bit.ly/install-rfc | sh
 ```
+
+This will install `rfc` in `~/bin/`.
 
 ### Requirements
 
