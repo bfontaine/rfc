@@ -4,6 +4,8 @@
 command-line. It fetches RFCs from the Web, then caches them locally, so each RFC
 is fetched only once.
 
+[ietf-rfc]: http://www.ietf.org/rfc.html
+
 ## Usage
 
 Just type `rfc` followed by the RFC number:
@@ -12,12 +14,14 @@ Just type `rfc` followed by the RFC number:
 $ rfc <RFC num>
 ```
 
-### Example
+e.g.:
 
 ```sh
 rfc 42 # Read the RFC 42
 rfc 1234 # Read the RFC 1234
 ```
+
+Clear the cache with `rfc clear`.
 
 ## Install
 
@@ -29,8 +33,5 @@ This will install `rfc` in `~/bin/`.
 
 ### Requirements
 
-- `curl`
-- `less`
-
-
-[ietf-rfc]: http://www.ietf.org/rfc.html
+- `curl` or `wget`
+- `less` or another pager

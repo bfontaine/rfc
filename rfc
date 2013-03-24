@@ -4,22 +4,33 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.0.3
+# Version: 0.0.4
 #
 # URI: github.com/bfontaine/rfc
 #
 
 __rfc() {
 
-    local VERSION='0.0.3'
+    local VERSION='0.0.4'
+    local PAGER=${PAGER:-less}
+    local fetch_cmd='curl'
     local rfc_dir="$HOME/.RFCs"
 
     print_rfc() {
-        less "$rfc_dir/$1"
+        $PAGER "$rfc_dir/$1"
     }
 
     get_rfc() {
-        curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt > "$rfc_dir/${1}"
+        case $fetch_cmd in
+            curl)
+                curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt \
+                    > "$rfc_dir/${1}"; return $? ;;
+
+            wget)
+                wget -q http://www.rfc-editor.org/rfc/rfc${1}.txt \
+                    -O "$rfc_dir/${1}"; return $? ;;
+
+        esac
     }
 
     init_rfc_dir() {
@@ -42,12 +53,25 @@ __rfc() {
         echo "rfc v$VERSION - github.com/bfontaine/rfc"
     }
 
+    ###
+
     if [ $# -eq 0 ]; then
         print_usage
         return
     fi
 
-    ###
+    which curl > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        which wget > /dev/null 2>&1
+
+        if [ $? -ne 0 ]; then
+            echo "Error: You need Wget or cURL!"
+            return 1
+        fi
+
+        fetch_cmd='wget'
+
+    fi
 
     init_rfc_dir
 
