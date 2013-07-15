@@ -21,7 +21,8 @@ rfc 42 # Read the RFC 42
 rfc 1234 # Read the RFC 1234
 ```
 
-Clear the cache with `rfc clear`.
+Clear the cache with `rfc clear`. The command returns a non-zero value if you
+try to read a non-existing RFC.
 
 ## Install
 

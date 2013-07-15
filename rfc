@@ -4,14 +4,14 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.0.4
+# Version: 0.0.5
 #
 # URI: github.com/bfontaine/rfc
 #
 
 __rfc() {
 
-    local VERSION='0.0.4'
+    local VERSION='0.0.5'
     local PAGER=${PAGER:-less}
     local fetch_cmd='curl'
     local rfc_dir="$HOME/.RFCs"
@@ -88,7 +88,7 @@ __rfc() {
         -*)
             echo "Unrecognized option: $1"
             print_usage
-            return ;;
+            return 1;;
 
         clear)
             rm -rf $rfc_dir
@@ -96,14 +96,14 @@ __rfc() {
 
         _404s)
             print_usage
-            return ;;
+            return 1;;
 
         *)
         grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
         if [ $? -eq 0 ]; then
 
             echo "There's no such RFC."
-            return
+            return 1
 
         elif [ ! -f "$rfc_dir/$1" ]; then
 
@@ -112,11 +112,11 @@ __rfc() {
             if [ $? -eq 22 ]; then
 
                 echo "$1" >> "$rfc_dir/_404s"
-                echo "There's no such RFC, sorry."
+                echo "There's no such RFC."
 
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
 
-                return
+                return 1
             fi
 
         fi
