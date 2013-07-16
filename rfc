@@ -42,11 +42,11 @@ __rfc() {
 
     print_usage() {
         echo "Usage:
-    $0 --version # display the version number and exit
-    $0 --help    # display this text and exit
+    rfc --version # display the version number and exit
+    rfc --help    # display this text and exit
 
-    $0 <number>  # display the RFC <number>
-    $0 clear     # clear the cache"
+    rfc <number>  # display the RFC <number>
+    rfc clear     # clear the cache"
     }
 
     print_version() {
