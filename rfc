@@ -4,14 +4,14 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.0.5
+# Version: 0.1.0
 #
 # URI: github.com/bfontaine/rfc
 #
 
 __rfc() {
 
-    local VERSION='0.0.5'
+    local VERSION='0.1.0'
     local COMMIT=''
     local PAGER=${PAGER:-less}
     local fetch_cmd='curl'
