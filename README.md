@@ -21,7 +21,27 @@ rfc 42 # Read the RFC 42
 rfc 1234 # Read the RFC 1234
 ```
 
-Clear the cache with `rfc clear`, and update the script with `rfc update`.
+Additionally, it supports the following subcommands:
+
+```sh
+rfc clear    # clear the cache
+rfc help     # display the help
+rfc search X # search for `X` in the cached RFCs (using grep)
+rfc update   # update the script
+```
+
+### Options
+
+- `--version`: display the version number
+- `--help`: display the help
+
+### Return codes
+
+- `0`: normal execution
+- `1`: the RFC cannot be found
+- `2`: unexisting option/subcommand
+- `3`: unable to connect to the network
+
 
 ## Install
 
@@ -36,9 +56,7 @@ This will install `rfc` in `~/bin/`.
 - `curl` or `wget`
 - `less` or another pager
 
-### Return codes
+### Compatibility
 
-- `0`: normal execution
-- `1`: the RFC cannot be found
-- `2`: unexisting option
-- `3`: unable to connect to the network
+While mostly tested with Bash, this script should work with all flavors of `sh`.
+
