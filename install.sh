@@ -2,6 +2,8 @@
 
 function __install_rfc() {
 
+local fetch_cmd=curl
+
 printf "Looking for curl... "
 which curl > /dev/null
 if [ "$?" = "0" ]; then
@@ -10,6 +12,7 @@ else
     printf "not found. I'll try with wget... "
     which wget > /dev/null
     if [ "$?" -eq 0 ]; then
+        fetch_cmd=wget
         echo "found."
     else
         echo 'not found!'
@@ -49,11 +52,22 @@ if [ "$?" != "0" ]; then
 fi
 
 printf "Downloading rfc... "
-curl -fs https://raw.github.com/bfontaine/rfc/master/rfc > "$HOME/bin/rfc" \
-    && echo "done." || echo 'fail!'
+
+local url=https://raw.github.com/bfontaine/rfc/master/rfc
+local path="$HOME/bin/rfc"
+
+case $fetch_cmd in
+    curl)
+        curl -fs "$url" > "$path" \
+            && echo "done." || echo 'fail!' ;;
+
+    wget)
+        wget -q "$url" -O "$path" \
+            && echo "done." || echo 'fail!' ;;
+esac
 
 printf "Making it executable... "
-chmod u+x "$HOME/bin/rfc" && echo "done." || echo 'fail!'
+chmod u+x "$path" && echo "done." || echo 'fail!'
 
 }
 __install_rfc;
