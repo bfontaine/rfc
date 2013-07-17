@@ -124,24 +124,24 @@ __rfc() {
 
         -v|--version)
             print_version
-            return ;;
+            return 0;;
 
         -h|--help)
             print_usage
-            return ;;
+            return 0;;
 
         -*)
             echo "Unrecognized option: $1"
             print_usage
-            return 1;;
+            return 2;;
 
         clear)
             rm -rf $rfc_dir
-            return ;;
+            return 0;;
 
         up|update)
             update
-            return ;;
+            return 0;;
 
         _404s)
             print_usage

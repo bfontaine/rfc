@@ -21,8 +21,7 @@ rfc 42 # Read the RFC 42
 rfc 1234 # Read the RFC 1234
 ```
 
-Clear the cache with `rfc clear`. The command returns a non-zero value if you
-try to read a non-existing RFC.
+Clear the cache with `rfc clear`, and update the script with `rfc update`.
 
 ## Install
 
@@ -36,3 +35,9 @@ This will install `rfc` in `~/bin/`.
 
 - `curl` or `wget`
 - `less` or another pager
+
+### Return codes
+
+- `0`: normal execution
+- `1`: the RFC cannot be found
+- `2`: unexisting option
