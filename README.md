@@ -41,3 +41,4 @@ This will install `rfc` in `~/bin/`.
 - `0`: normal execution
 - `1`: the RFC cannot be found
 - `2`: unexisting option
+- `3`: unable to connect to the network

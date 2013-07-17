@@ -16,6 +16,10 @@ __rfc() {
     local PAGER=${PAGER:-less}
     local fetch_cmd='curl'
     local rfc_dir="$HOME/.RFCs"
+    local code=
+
+    local network_error=4
+    local error_404=5
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
@@ -25,17 +29,26 @@ __rfc() {
         case $fetch_cmd in
             curl)
                 curl -fs "$1" > "$2";
-                return $? ;;
+                case "$?" in
+                    6|7) return $network_error ;;
+                    22)  return $error_404 ;;
+                    *)   return 0 ;;
+                esac ;;
 
             wget)
                 wget -q "$1" -O "$2";
-                return $? ;;
+                case "$?" in
+                    4) return $network_error ;;
+                    8) return $error_404 ;;
+                    *) return 0 ;;
+                esac ;;
         esac
     }
 
     get_rfc() {
         fetch_url \
             http://www.rfc-editor.org/rfc/rfc${1}.txt "$rfc_dir/${1}"
+        return $?
     }
 
     init_rfc_dir() {
@@ -158,8 +171,15 @@ __rfc() {
 
             get_rfc $1
 
-            if [ $? -eq 22 ]; then
+            code=$?
 
+            if [ $code -eq $network_error ]; then
+                echo "Unable to connect to the network."
+                [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
+                return 3
+            fi
+
+            if [ $code -eq $error_404 ]; then
                 echo "$1" >> "$rfc_dir/_404s"
                 echo "There's no such RFC."
 
