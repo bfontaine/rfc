@@ -12,6 +12,7 @@
 __rfc() {
 
     local VERSION='0.0.5'
+    local COMMIT=''
     local PAGER=${PAGER:-less}
     local fetch_cmd='curl'
     local rfc_dir="$HOME/.RFCs"
@@ -20,17 +21,21 @@ __rfc() {
         $PAGER "$rfc_dir/$1"
     }
 
-    get_rfc() {
+    fetch_url() {
         case $fetch_cmd in
             curl)
-                curl -fs http://www.rfc-editor.org/rfc/rfc${1}.txt \
-                    > "$rfc_dir/${1}"; return $? ;;
+                curl -fs "$1" > "$2";
+                return $? ;;
 
             wget)
-                wget -q http://www.rfc-editor.org/rfc/rfc${1}.txt \
-                    -O "$rfc_dir/${1}"; return $? ;;
-
+                wget -q "$1" -O "$2";
+                return $? ;;
         esac
+    }
+
+    get_rfc() {
+        fetch_url \
+            http://www.rfc-editor.org/rfc/rfc${1}.txt "$rfc_dir/${1}"
     }
 
     init_rfc_dir() {
@@ -40,17 +45,57 @@ __rfc() {
 
     }
 
+    update() {
+
+        local new_commit=
+        local actual=
+        local tmp='._rfc_tmp'
+
+        fetch_url \
+            https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master \
+            $tmp
+
+        local new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
+        local actual=''
+
+        if [ "$COMMIT" == "$NEW_COMMIT" ]; then
+            echo 'This version is up to date!'
+            return 0
+        fi
+
+        if [ "$COMMIT" != "" ]; then
+            actual="from $COMMIT "
+        fi
+
+        fetch_url \
+           https://raw.github.com/bfontaine/rfc/master/rfc $tmp
+
+        \cp "$0" "/tmp/$0.bak" 2>/dev/null # Backup
+        sed "s/COMMIT='.*'/COMMIT='$NEW_COMMIT'/" $tmp > "$0"
+        chmod +x "$0"
+        rm -f $tmp
+
+        echo "'rfc' updated ${actual}to $NEW_COMMIT"
+        return 0
+    }
+
     print_usage() {
         echo "Usage:
     rfc --version # display the version number and exit
     rfc --help    # display this text and exit
 
     rfc <number>  # display the RFC <number>
+    rfc update    # Update the script
     rfc clear     # clear the cache"
     }
 
     print_version() {
-        echo "rfc v$VERSION - github.com/bfontaine/rfc"
+        local commit=
+        if [ "$COMMIT" != "" ]; then
+            commit="[$COMMIT] "
+        fi
+
+        echo "rfc v$VERSION $commit- github.com/bfontaine/rfc"
     }
 
     ###
@@ -92,6 +137,10 @@ __rfc() {
 
         clear)
             rm -rf $rfc_dir
+            return ;;
+
+        up|update)
+            update
             return ;;
 
         _404s)
