@@ -1,6 +1,6 @@
 # rfc
 
-`rfc` is a little tool written in Bash to read [RFCs][ietf-rfc] from the
+`rfc` is a little tool written in sh to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs from the Web, then caches them locally, so each RFC
 is fetched only once.
 
