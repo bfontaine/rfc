@@ -58,7 +58,7 @@ __rfc() {
         local new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
         local actual=''
 
-        if [ "$COMMIT" == "$NEW_COMMIT" ]; then
+        if [ "$COMMIT" == "$new_commit" ]; then
             echo 'This version is up to date!'
             return 0
         fi
@@ -71,11 +71,11 @@ __rfc() {
            https://raw.github.com/bfontaine/rfc/master/rfc $tmp
 
         \cp "$0" "/tmp/$0.bak" 2>/dev/null # Backup
-        sed "s/COMMIT='.*'/COMMIT='$NEW_COMMIT'/" $tmp > "$0"
+        sed "s/COMMIT='[0-9a-z]*'/COMMIT='$new_commit'/" $tmp > "$0"
         chmod +x "$0"
         rm -f $tmp
 
-        echo "'rfc' updated ${actual}to $NEW_COMMIT"
+        echo "'rfc' updated ${actual}to $new_commit"
         return 0
     }
 
@@ -102,7 +102,7 @@ __rfc() {
 
     if [ $# -eq 0 ]; then
         print_usage
-        return
+        return 0
     fi
 
     which curl > /dev/null 2>&1
