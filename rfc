@@ -75,8 +75,8 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
         fetch_url $GITHUB_HEAD_URL $tmp
 
-        local new_commit=\
-            $(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
+        local new_commit=$(grep '"sha"' $tmp |
+                             sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
         local actual=''
 
         if [ "$COMMIT" = "$new_commit" ]; then
