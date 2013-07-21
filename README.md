@@ -1,6 +1,6 @@
 # rfc
 
-`rfc` is a little tool written in sh to read [RFCs][ietf-rfc] from the
+`rfc` is a little tool written in bash to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs from the Web, then caches them locally, so each RFC
 is fetched only once.
 
@@ -46,7 +46,7 @@ rfc update   # update the script
 ## Install
 
 ```
-curl -sL bit.ly/install-rfc | sh
+curl -sL bit.ly/install-rfc | bash
 ```
 
 This will install `rfc` in `~/bin/`.
@@ -55,8 +55,4 @@ This will install `rfc` in `~/bin/`.
 
 - `curl` or `wget`
 - `less` or another pager
-
-### Compatibility
-
-While mostly tested with Bash, this script should work with all flavors of `sh`.
 
