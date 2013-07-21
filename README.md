@@ -25,22 +25,24 @@ Additionally, it supports the following subcommands:
 
 ```sh
 rfc clear    # clear the cache
-rfc help     # display the help
+rfc help     # display the help and exit
 rfc search X # search for `X` in the cached RFCs (using grep)
 rfc update   # update the script
+rfc version  # display the version number and exit
 ```
 
 ### Options
 
-- `--version`: display the version number
-- `--help`: display the help
+- `--version`: same as the `version` subcommand
+- `--help`: same as the `help` subcommand
 
 ### Return codes
 
 - `0`: normal execution
 - `1`: the RFC cannot be found
-- `2`: unexisting option/subcommand
+- `2`: unrecognized option/subcommand
 - `3`: unable to connect to the network
+- `4`: can't find `curl` nor `wget`
 
 
 ## Install

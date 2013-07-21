@@ -18,8 +18,18 @@ __rfc() {
     local rfc_dir="$HOME/.RFCs"
     local code=
 
-    local network_error=4
-    local error_404=5
+    # Error codes
+    local NOT_FOUND=1
+    local UNRECOGNIZED_CMD=2
+    local NETWORK_ERROR=3
+    local NO_CURL_WGET=6
+
+    # URLs
+    local GITHUB_HEAD_URL="\
+https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
+    local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
+    local REPO_HOME='https://github.com/bfontaine/rfc'
+    local RFCS_BASEURL='http://www.rfc-editor.org/rfc/'
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
@@ -30,24 +40,23 @@ __rfc() {
             curl)
                 curl -fs "$1" > "$2";
                 case "$?" in
-                    6|7) return $network_error ;;
-                    22)  return $error_404 ;;
+                    6|7) return $NETWORK_ERROR ;;
+                    22)  return $NOT_FOUND ;;
                     *)   return 0 ;;
                 esac ;;
 
             wget)
                 wget -q "$1" -O "$2";
                 case "$?" in
-                    4) return $network_error ;;
-                    8) return $error_404 ;;
+                    4) return $NETWORK_ERROR ;;
+                    8) return $NOT_FOUND ;;
                     *) return 0 ;;
                 esac ;;
         esac
     }
 
     get_rfc() {
-        fetch_url \
-            http://www.rfc-editor.org/rfc/rfc${1}.txt "$rfc_dir/${1}"
+        fetch_url "$RFCS_BASEURL/rfc${1}.txt" "$rfc_dir/${1}"
         return $?
     }
 
@@ -64,14 +73,13 @@ __rfc() {
         local actual=
         local tmp='._rfc_tmp'
 
-        fetch_url \
-            https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master \
-            $tmp
+        fetch_url $GITHUB_HEAD_URL $tmp
 
-        local new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
+        local new_commit=\
+            $(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
         local actual=''
 
-        if [ "$COMMIT" == "$new_commit" ]; then
+        if [ "$COMMIT" = "$new_commit" ]; then
             echo 'This version is up to date!'
             return 0
         fi
@@ -80,8 +88,7 @@ __rfc() {
             actual="from $COMMIT "
         fi
 
-        fetch_url \
-           https://raw.github.com/bfontaine/rfc/master/rfc $tmp
+        fetch_url $RFC_REMOTE_URL $tmp
 
         \cp "$0" "/tmp/$0.bak" 2>/dev/null # Backup
         sed "s/COMMIT='[0-9a-z]*'/COMMIT='$new_commit'/" $tmp > "$0"
@@ -109,7 +116,7 @@ __rfc() {
             commit="[$COMMIT] "
         fi
 
-        echo "rfc v$VERSION $commit- github.com/bfontaine/rfc"
+        echo "rfc v$VERSION $commit- $REPO_HOME"
     }
 
     ###
@@ -125,7 +132,7 @@ __rfc() {
 
         if [ $? -ne 0 ]; then
             echo "Error: You need Wget or cURL!"
-            return 1
+            return $NO_CURL_WGET;
         fi
 
         fetch_cmd='wget'
@@ -136,7 +143,7 @@ __rfc() {
 
     case "$1" in
 
-        -v|--version)
+        -v|--version|version)
             print_version
             return 0;;
 
@@ -147,7 +154,7 @@ __rfc() {
         -*)
             echo "Unrecognized option: $1"
             print_usage
-            return 2;;
+            return $UNRECOGNIZED_CMD;;
 
         clear)
             rm -rf $rfc_dir
@@ -158,9 +165,9 @@ __rfc() {
             return 0;;
 
         search)
-            if [ "$2" == "" ]; then
+            if [ "$2" = "" ]; then
                 echo 'Usage: rfc search "<pattern>"'
-                return 2;
+                return $UNRECOGNIZED_CMD;
             fi
             grep -Is --exclude _404s "$2" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
             return 0;;
@@ -174,7 +181,7 @@ __rfc() {
         if [ $? -eq 0 ]; then
 
             echo "There's no such RFC."
-            return 1
+            return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
 
@@ -182,19 +189,19 @@ __rfc() {
 
             code=$?
 
-            if [ $code -eq $network_error ]; then
+            if [ $code -eq $NETWORK_ERROR ]; then
                 echo "Unable to connect to the network."
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
-                return 3
+                return $NETWORK_ERROR
             fi
 
-            if [ $code -eq $error_404 ]; then
+            if [ $code -eq $NOT_FOUND ]; then
                 echo "$1" >> "$rfc_dir/_404s"
                 echo "There's no such RFC."
 
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
 
-                return 1
+                return $NOT_FOUND
             fi
 
         fi
