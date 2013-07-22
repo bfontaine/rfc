@@ -2,6 +2,9 @@
 
 function __install_rfc() {
 
+echo '[Warning]: This install script is deprecated,'
+echo '           use the manual install instead.'
+
 local fetch_cmd=curl
 
 printf "Looking for curl... "

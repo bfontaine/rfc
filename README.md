@@ -47,24 +47,31 @@ rfc version  # display the version number and exit
 
 ## Install
 
-```
-curl -sL bit.ly/install-rfc | bash
-```
-
-This will install `rfc` in `~/bin/`, and add it to your path using
-`~/.bash_profile`, if it’s not already in it.
-
-If you prefer the manual install, clone this repo or [download][raw-script]
-`rfc`, move it wherever you want, and set it executable. For example, to install
-it in `~/.local/bin` (assuming it’s already in your `PATH`), use this:
+### Basic install
 
 ```sh
-git clone https://github.com/bfontaine/rfc.git
-mv rfc/rfc ~/.local/bin/
-chmod u+x ~/.local/bin/rfc
+mkdir -p ~/bin
+curl https://raw.github.com/bfontaine/rfc/master/rfc > ~/bin/rfc
+chmod u+x ~/bin/rfc
 ```
 
-[raw-script]: https://raw.github.com/bfontaine/rfc/master/rfc
+This creates the `~/bin` directory if it doesn’t exist, and download `rfc` in it.
+If it’s not in your `PATH`, you have to add it:
+
+```
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+```
+
+### Advanced install
+
+If you prefer to choose where you want to install `rfc`, it’s up to you! Drop it
+where you want, ensure that the directory is in your `PATH`, make it executable,
+and that’s it.
+
+```sh
+curl https://raw.github.com/bfontaine/rfc/master/rfc > /where/you/want/rfc
+chmod u+x /where/you/want/rfc
+```
 
 ### Requirements
 
