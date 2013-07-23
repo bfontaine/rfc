@@ -67,6 +67,26 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
     }
 
+    search() {
+        GREP_EXTRA_ARGS=""
+        while : ; do
+            case "$1" in
+                -*)
+                    GREP_EXTRA_ARGS="$GREP_EXTRA_ARGS $1"
+                    shift ;;
+                *)
+                    break ;;
+            esac
+        done
+
+        if [ -z "$1" ]; then
+            echo 'Usage: rfc search "<pattern>"'
+            return $UNRECOGNIZED_CMD;
+        fi
+        grep -Is --exclude _404s $GREP_EXTRA_ARGS "$1" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
+        return 0
+    }
+
     update() {
 
         local new_commit=
@@ -100,13 +120,13 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
     print_usage() {
         echo 'Usage:
-    rfc --version # display the version number and exit
-    rfc --help    # display this text and exit
+    rfc --version       # display the version number and exit
+    rfc --help          # display this text and exit
 
-    rfc <number>  # display the RFC <number>
-    rfc update    # Update the script
-    rfc search X  # Search for `X` in all cached RFCs
-    rfc clear     # clear the cache'
+    rfc <number>        # display the RFC <number>
+    rfc update          # Update the script
+    rfc search [OPTS] X # Search for X with grep with OPTS passed through
+    rfc clear           # clear the cache'
     }
 
     print_version() {
@@ -164,12 +184,9 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
             return 0;;
 
         search)
-            if [ "$2" = "" ]; then
-                echo 'Usage: rfc search "<pattern>"'
-                return $UNRECOGNIZED_CMD;
-            fi
-            grep -Is --exclude _404s "$2" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
-            return 0;;
+            shift;
+            search $*
+            return $?;;
 
         _404s)
             print_usage

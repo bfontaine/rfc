@@ -24,11 +24,11 @@ rfc 1234 # Read the RFC 1234
 Additionally, it supports the following subcommands:
 
 ```sh
-rfc clear    # clear the cache
-rfc help     # display the help and exit
-rfc search X # search for `X` in the cached RFCs (using grep)
-rfc update   # update the script
-rfc version  # display the version number and exit
+rfc clear           # clear the cache
+rfc help            # display the help and exit
+rfc search [OPTS] X # search for `X` in the cached RFCs (using grep with OPTS passed through)
+rfc update          # update the script
+rfc version         # display the version number and exit
 ```
 
 ### Options
