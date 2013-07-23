@@ -30,6 +30,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='http://www.rfc-editor.org/rfc/'
+    local DRAFTS_BASEURL='http://www.ietf.org/id/'
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
@@ -57,6 +58,11 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
     get_rfc() {
         fetch_url "$RFCS_BASEURL/rfc${1}.txt" "$rfc_dir/${1}"
+        return $?
+    }
+
+    get_draft() {
+        fetch_url "$DRAFTS_BASEURL/${1}.txt" "$rfc_dir/${1}"
         return $?
     }
 
@@ -196,12 +202,16 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
         if [ $? -eq 0 ]; then
 
-            echo "There's no such RFC."
+            echo "There's no such RFC or draft."
             return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
 
-            get_rfc $1
+            if [[ $1 == draft* ]]; then
+                get_draft $1
+            else
+                get_rfc $1
+            fi
 
             code=$?
 
@@ -213,7 +223,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
             if [ $code -eq $NOT_FOUND ]; then
                 echo "$1" >> "$rfc_dir/_404s"
-                echo "There's no such RFC."
+                echo "There's no such RFC or draft."
 
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
 
