@@ -22,7 +22,7 @@ __rfc() {
     local NOT_FOUND=1
     local UNRECOGNIZED_CMD=2
     local NETWORK_ERROR=3
-    local NO_CURL_WGET=6
+    local NO_CURL_WGET=4
 
     # URLs
     local GITHUB_HEAD_URL="\
