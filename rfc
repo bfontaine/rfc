@@ -30,6 +30,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='http://www.rfc-editor.org/rfc/'
+    local DRAFTS_BASEURL='http://www.ietf.org/id/'
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
@@ -60,11 +61,25 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         return $?
     }
 
+    get_draft() {
+        fetch_url "$DRAFTS_BASEURL/${1}.txt" "$rfc_dir/${1}"
+        return $?
+    }
+
     init_rfc_dir() {
 
         mkdir -p $rfc_dir
         touch $rfc_dir/_404s
 
+    }
+
+    search() {
+        if [ -z "$1" ]; then
+            echo 'Usage: rfc search "<pattern>"'
+            return $UNRECOGNIZED_CMD;
+        fi
+        grep -Is --exclude _404s $@ $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
+        return 0
     }
 
     update() {
@@ -100,13 +115,13 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
     print_usage() {
         echo 'Usage:
-    rfc --version # display the version number and exit
-    rfc --help    # display this text and exit
+    rfc --version       # display the version number and exit
+    rfc --help          # display this text and exit
 
-    rfc <number>  # display the RFC <number>
-    rfc update    # Update the script
-    rfc search X  # Search for `X` in all cached RFCs
-    rfc clear     # clear the cache'
+    rfc <number>        # display the RFC <number>
+    rfc update          # Update the script
+    rfc search [OPTS] X # Search for X with grep with OPTS passed through
+    rfc clear           # clear the cache'
     }
 
     print_version() {
@@ -164,12 +179,9 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
             return 0;;
 
         search)
-            if [ "$2" = "" ]; then
-                echo 'Usage: rfc search "<pattern>"'
-                return $UNRECOGNIZED_CMD;
-            fi
-            grep -Is --exclude _404s "$2" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
-            return 0;;
+            shift;
+            search $*
+            return $?;;
 
         _404s)
             print_usage
@@ -179,12 +191,16 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
         if [ $? -eq 0 ]; then
 
-            echo "There's no such RFC."
+            echo "There's no such RFC or draft."
             return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
 
-            get_rfc $1
+            if [[ $1 == draft* ]]; then
+                get_draft $1
+            else
+                get_rfc $1
+            fi
 
             code=$?
 
@@ -196,7 +212,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
             if [ $code -eq $NOT_FOUND ]; then
                 echo "$1" >> "$rfc_dir/_404s"
-                echo "There's no such RFC."
+                echo "There's no such RFC or draft."
 
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
 
