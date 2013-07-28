@@ -79,3 +79,6 @@ chmod u+x /where/you/want/rfc
 - `curl` or `wget` (it’ll try `$CURL`, `curl` and `wget`, in that order)
 - `less` or another pager
 
+## Credits
+
+Baptiste Fontaine and [contributors](https://github.com/bfontaine/rfc/graphs/contributors).
