@@ -74,22 +74,11 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     }
 
     search() {
-        GREP_EXTRA_ARGS=""
-        while : ; do
-            case "$1" in
-                -*)
-                    GREP_EXTRA_ARGS="$GREP_EXTRA_ARGS $1"
-                    shift ;;
-                *)
-                    break ;;
-            esac
-        done
-
         if [ -z "$1" ]; then
             echo 'Usage: rfc search "<pattern>"'
             return $UNRECOGNIZED_CMD;
         fi
-        grep -Is --exclude _404s $GREP_EXTRA_ARGS "$1" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
+        grep -Is --exclude _404s $@ "$1" $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
         return 0
     }
 
