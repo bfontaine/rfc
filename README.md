@@ -1,14 +1,14 @@
 # rfc
 
 `rfc` is a little tool written in bash to read [RFCs][ietf-rfc] from the
-command-line. It fetches RFCs from the Web, then caches them locally, so each RFC
-is fetched only once.
+command-line. It fetches RFCs and drafts from the Web, then caches them
+locally, so each document is fetched only once.
 
 [ietf-rfc]: http://www.ietf.org/rfc.html
 
 ## Usage
 
-Just type `rfc` followed by the RFC number:
+Just type `rfc` followed by the RFC number or the draft name:
 
 ```
 $ rfc <RFC num>
@@ -19,16 +19,17 @@ e.g.:
 ```sh
 rfc 42 # Read the RFC 42
 rfc 1234 # Read the RFC 1234
+rfc draft-ietf-core-coap-18 # Read IETF draft core-coap version 18
 ```
 
 Additionally, it supports the following subcommands:
 
 ```sh
-rfc clear    # clear the cache
-rfc help     # display the help and exit
-rfc search X # search for `X` in the cached RFCs (using grep)
-rfc update   # update the script
-rfc version  # display the version number and exit
+rfc clear           # clear the cache
+rfc help            # display the help and exit
+rfc search [OPTS] X # search for `X` in the cached RFCs (using grep with OPTS passed through)
+rfc update          # update the script
+rfc version         # display the version number and exit
 ```
 
 ### Options
