@@ -14,7 +14,7 @@ __rfc() {
     local VERSION='0.1.0'
     local COMMIT=''
     local PAGER=${PAGER:-less}
-    local fetch_cmd='curl'
+    local fetch_cmd=${CURL:-curl}
     local rfc_dir="$HOME/.RFCs"
     local code=
 
@@ -85,13 +85,12 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     update() {
 
         local new_commit=
-        local actual=
+        local actual=''
         local tmp='._rfc_tmp'
 
         fetch_url $GITHUB_HEAD_URL $tmp
 
-        local new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
-        local actual=''
+        new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
 
         if [ "$COMMIT" = "$new_commit" ]; then
             echo 'This version is up to date!'
@@ -105,12 +104,19 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         fetch_url $RFC_REMOTE_URL $tmp
 
         \cp "$0" "/tmp/$0.bak" 2>/dev/null # Backup
-        sed "s/COMMIT='[0-9a-z]*'/COMMIT='$new_commit'/" $tmp > "$0"
         chmod +x "$0"
         rm -f $tmp
 
         echo "'rfc' updated ${actual}to $new_commit."
         return 0
+    }
+
+    print_not_found_error() {
+        if [[ $1 == draft* ]]; then
+            echo "There's no such draft."
+        else
+            echo "There's no such RFC."
+        fi
     }
 
     print_usage() {
@@ -191,7 +197,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
         if [ $? -eq 0 ]; then
 
-            echo "There's no such RFC or draft."
+            print_not_found_error "$1"
             return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
@@ -212,7 +218,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
             if [ $code -eq $NOT_FOUND ]; then
                 echo "$1" >> "$rfc_dir/_404s"
-                echo "There's no such RFC or draft."
+                print_not_found_error "$1"
 
                 [ ! -s "$rfc_dir/$1" ] && rm -f "$rfc_dir/$1"
 
