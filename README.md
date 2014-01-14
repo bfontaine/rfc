@@ -74,6 +74,13 @@ curl https://raw.github.com/bfontaine/rfc/master/rfc > /where/you/want/rfc
 chmod u+x /where/you/want/rfc
 ```
 
+### Using homebrew
+
+```
+brew tap bfontaine/utils
+brew install rfc
+```
+
 ### Requirements
 
 - `curl` or `wget` (it’ll try `$CURL`, `curl` and `wget`, in that order)
