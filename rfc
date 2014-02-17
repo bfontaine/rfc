@@ -82,6 +82,10 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
         return 0
     }
 
+    list() {
+        \ls -1 $rfc_dir | grep '^\d\+$' | sort -n | sed 's/^/RFC /'
+    }
+
     update() {
         fetch_url $RFC_REMOTE_URL $0
         chmod +x "$0"
@@ -103,7 +107,8 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
     rfc <number>        # display the RFC <number>
     rfc update          # Update the script
-    rfc search [OPTS] X # Search for X with grep with OPTS passed through
+    rfc search [OPTS] X # Search for X in local RFCs using grep with OPTS passed through
+    rfc list            # List locally available RFCs
     rfc clear           # clear the cache'
     }
 
@@ -159,6 +164,10 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
 
         up|update)
             update
+            return 0;;
+
+        ls|list)
+            list
             return 0;;
 
         search)
