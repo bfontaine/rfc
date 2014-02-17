@@ -83,31 +83,8 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     }
 
     update() {
-
-        local new_commit=
-        local actual=''
-        local tmp='._rfc_tmp'
-
-        fetch_url $GITHUB_HEAD_URL $tmp
-
-        new_commit=$(grep '"sha"' $tmp | sed 's/.*"\([0-9a-z]\{8\}\).*,/\1/')
-
-        if [ "$COMMIT" = "$new_commit" ]; then
-            echo 'This version is up to date!'
-            return 0
-        fi
-
-        if [ "$COMMIT" != "" ]; then
-            actual="from $COMMIT "
-        fi
-
-        fetch_url $RFC_REMOTE_URL $tmp
-
-        \cp "$0" "/tmp/$0.bak" 2>/dev/null # Backup
+        fetch_url $RFC_REMOTE_URL $0
         chmod +x "$0"
-        rm -f $tmp
-
-        echo "'rfc' updated ${actual}to $new_commit."
         return 0
     }
 
