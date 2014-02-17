@@ -4,15 +4,14 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.1.0
+# Version: 0.1.1
 #
 # URI: github.com/bfontaine/rfc
 #
 
 __rfc() {
 
-    local VERSION='0.1.0'
-    local COMMIT=''
+    local VERSION='0.1.1'
     local PAGER=${PAGER:-less}
     local fetch_cmd=${CURL:-curl}
     local rfc_dir="$HOME/.RFCs"
@@ -25,8 +24,6 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local GITHUB_HEAD_URL="\
-https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='http://www.rfc-editor.org/rfc/'
@@ -113,12 +110,7 @@ https://api.github.com/repos/bfontaine/rfc/git/refs/heads/master"
     }
 
     print_version() {
-        local commit=
-        if [ "$COMMIT" != "" ]; then
-            commit="[$COMMIT] "
-        fi
-
-        echo "rfc v$VERSION $commit- $REPO_HOME"
+        echo "rfc v$VERSION - $REPO_HOME"
     }
 
     ###
