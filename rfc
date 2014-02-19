@@ -67,9 +67,13 @@ __rfc() {
                     22)  return $NOT_FOUND ;;
                 esac ;;
             wget)
-                # TODO
-                echo 'You need cURL to do this operation'
-                exit 1;;
+                wget -q --no-remove-listing "$RFCS_TGZ_BASE_FTP" -O/dev/null
+                case "$?" in
+                    4) return $NETWORK_ERROR ;;
+                    8) return $NOT_FOUND ;;
+                esac
+                grep -o "$1" .listing && rm -f .listing
+                ;;
         esac
     }
 
@@ -146,8 +150,14 @@ __rfc() {
 
     rfc <number>        # display the RFC <number>
     rfc update          # Update the script
-    rfc search [OPTS] X # Search for X in local RFCs using grep with OPTS passed through
+    rfc search [OPTS] X # Search for X in local RFCs using grep with OPTS
+                          passed through
     rfc list            # List locally available RFCs
+    rfc sync [week|month|all] # batch download RFCs. `week` and `month`
+                                respectively download only RFCs that were
+                                added/updated during the last week/month.
+                                `all` (default) downloads all RFCs. It might
+                                take some time, be patient.
     rfc clear           # clear the cache'
     }
 
