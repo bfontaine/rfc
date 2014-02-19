@@ -22,15 +22,7 @@ rfc 1234 # Read the RFC 1234
 rfc draft-ietf-core-coap-18 # Read IETF draft core-coap version 18
 ```
 
-Additionally, it supports the following subcommands:
-
-```sh
-rfc clear           # clear the cache
-rfc help            # display the help and exit
-rfc search [OPTS] X # search for `X` in the cached RFCs (using grep with OPTS passed through)
-rfc update          # update the script
-rfc version         # display the version number and exit
-```
+Use `rfc help` to see all available subcommands.
 
 ### Options
 
