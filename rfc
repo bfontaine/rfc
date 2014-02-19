@@ -14,7 +14,7 @@ __rfc() {
     local VERSION='0.1.1'
     local PAGER=${PAGER:-less}
     local fetch_cmd=${CURL:-curl}
-    local rfc_dir="$HOME/.RFCs"
+    local rfc_dir="${RFC_DIR:-$HOME/.RFCs}"
     local code=
 
     # Error codes
@@ -24,10 +24,14 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
+    local RFCS_TGZ_BASE_FTP='ftp://ftp.rfc-editor.org/in-notes/tar/'
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='http://www.rfc-editor.org/rfc/'
     local DRAFTS_BASEURL='http://www.ietf.org/id/'
+
+    # $rfc_dir must be absolute
+    [ "${rfc_dir:0:1}" != "/" ] && $rfc_dir="$PWD/$rfc_dir"
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
@@ -36,7 +40,7 @@ __rfc() {
     fetch_url() {
         case $fetch_cmd in
             curl)
-                curl -fs "$1" > "$2";
+                curl -fs "$1" >| "$2";
                 case "$?" in
                     6|7) return $NETWORK_ERROR ;;
                     22)  return $NOT_FOUND ;;
@@ -44,12 +48,28 @@ __rfc() {
                 esac ;;
 
             wget)
-                wget -q "$1" -O "$2";
+                wget -cq "$1" -O "$2";
                 case "$?" in
                     4) return $NETWORK_ERROR ;;
                     8) return $NOT_FOUND ;;
                     *) return 0 ;;
                 esac ;;
+        esac
+    }
+
+    get_ftp_url() {
+        # $1 pattern of the file
+        case $fetch_cmd in
+            curl)
+                curl -sl "$RFCS_TGZ_BASE_FTP" | grep $1;
+                case "$?" in
+                    6|7) return $NETWORK_ERROR ;;
+                    22)  return $NOT_FOUND ;;
+                esac ;;
+            wget)
+                # TODO
+                echo 'You need cURL to do this operation'
+                exit 1;;
         esac
     }
 
@@ -64,10 +84,8 @@ __rfc() {
     }
 
     init_rfc_dir() {
-
         mkdir -p $rfc_dir
         touch $rfc_dir/_404s
-
     }
 
     search() {
@@ -77,6 +95,30 @@ __rfc() {
         fi
         grep -Is --exclude _404s $@ $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
         return 0
+    }
+
+    sync_rfcs() {
+        local name=RFC-all.tar.gz
+        case "$1" in
+            month|30|30days) name=$(get_ftp_url "30daysTo.*gz") ;;
+            week|7|7days)    name=$(get_ftp_url "7daysTo.*gz") ;;
+        esac
+
+        mkdir -p "$rfc_dir/_tmp"
+        fetch_url "$RFCS_TGZ_BASE_FTP$name" "$rfc_dir/_tmp/$name"
+        [ "$?" -ne "0" ] && exit $NETWORK_ERROR
+        cd "$rfc_dir/_tmp"
+        tar -xzf $name
+        rm -f $name
+        [ -d in-notes ] && cd in-notes
+        for f in `\ls -1 rfc*.txt`; do
+            echo "$f" | grep "^rfc\d\+\.txt$" >/dev/null 2>&1
+            if [ "$?" -eq "0" ]; then
+                n=${f##rfc};
+                n=${n%%.txt};
+                mv -f $f $rfc_dir/$n
+            fi
+        done
     }
 
     list() {
@@ -167,12 +209,17 @@ __rfc() {
             search $*
             return $?;;
 
-        _404s)
+        sync)
+            shift;
+            sync_rfcs $*
+            return $?;;
+
+        _*)
             print_usage
             return 1;;
 
         *)
-        grep -q "^$1\$" $rfc_dir/_404s 2> /dev/null
+        grep -q "^$1\$" "$rfc_dir/_404s" 2> /dev/null
         if [ $? -eq 0 ]; then
 
             print_not_found_error "$1"
