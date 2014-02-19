@@ -211,7 +211,7 @@ __rfc() {
             print_usage
             return $UNRECOGNIZED_CMD;;
 
-        clear)
+        clear|clean|clr)
             rm -rf $rfc_dir
             return 0;;
 
@@ -223,12 +223,12 @@ __rfc() {
             list
             return 0;;
 
-        search)
+        search|find)
             shift;
             search $*
             return $?;;
 
-        sync)
+        sync|download)
             shift;
             sync_rfcs $*
             return $?;;
