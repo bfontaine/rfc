@@ -4,14 +4,14 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.2.0
+# Version: 0.2.1
 #
 # URI: github.com/bfontaine/rfc
 #
 
 __rfc() {
 
-    local VERSION='0.2.0'
+    local VERSION='0.2.1'
     local PAGER=${PAGER:-less}
     local fetch_cmd=${CURL:-curl}
     local rfc_dir="${RFC_DIR:-$HOME/.RFCs}"
@@ -133,7 +133,7 @@ __rfc() {
         rm -f $name
         [ -d in-notes ] && cd in-notes
         for f in `\ls -1 rfc*.txt`; do
-            echo "$f" | grep -s "^rfc\d\+\.txt$"
+            echo "$f" | grep -q "^rfc\d\+\.txt$"
             if [ "$?" -eq "0" ]; then
                 n=${f##rfc};
                 n=${n%%.txt};
