@@ -1,8 +1,8 @@
 # rfc
 
 `rfc` is a little tool written in bash to read [RFCs][ietf-rfc] from the
-command-line. It fetches RFCs and drafts from the Web, then caches them
-locally, so each document is fetched only once.
+command-line. It fetches RFCs and drafts from the Web and caches them
+locally.
 
 [ietf-rfc]: http://www.ietf.org/rfc.html
 
@@ -37,7 +37,6 @@ Use `rfc help` to see all available subcommands.
 - `3`: unable to connect to the network
 - `4`: can't find `curl` nor `wget`
 
-
 ## Install
 
 ### Basic install
@@ -53,17 +52,6 @@ If it’s not in your `PATH`, you have to add it:
 
 ```
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-```
-
-### Advanced install
-
-If you prefer to choose where you want to install `rfc`, it’s up to you! Drop it
-where you want, ensure that the directory is in your `PATH`, make it executable,
-and that’s it.
-
-```sh
-curl https://raw.github.com/bfontaine/rfc/master/rfc > /where/you/want/rfc
-chmod u+x /where/you/want/rfc
 ```
 
 ### Using homebrew
