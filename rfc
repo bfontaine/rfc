@@ -92,6 +92,22 @@ __rfc() {
         touch $rfc_dir/_404s
     }
 
+    print_not_found_error() {
+        if [[ $1 == draft* ]]; then
+            echo "There's no such draft."
+        else
+            echo "There's no such RFC."
+        fi
+    }
+
+    ## Subcommands ##
+
+    # rfc list
+    list() {
+        \ls -1 $rfc_dir | grep '^\d\+$' | sort -n | sed 's/^/RFC /'
+    }
+
+    # rfc search <pattern>
     search() {
         if [ -z "$1" ]; then
             echo 'Usage: rfc search "<pattern>"'
@@ -101,6 +117,7 @@ __rfc() {
         return 0
     }
 
+    # rfc sync [week|month|all]
     sync_rfcs() {
         local name=RFC-all.tar.gz
         case "$1" in
@@ -116,33 +133,24 @@ __rfc() {
         rm -f $name
         [ -d in-notes ] && cd in-notes
         for f in `\ls -1 rfc*.txt`; do
-            echo "$f" | grep "^rfc\d\+\.txt$" >/dev/null 2>&1
+            echo "$f" | grep -s "^rfc\d\+\.txt$"
             if [ "$?" -eq "0" ]; then
                 n=${f##rfc};
                 n=${n%%.txt};
                 mv -f $f $rfc_dir/$n
             fi
         done
+        rm -rf "$rfc_dir/_tmp"
     }
 
-    list() {
-        \ls -1 $rfc_dir | grep '^\d\+$' | sort -n | sed 's/^/RFC /'
-    }
-
+    # rfc update
     update() {
         fetch_url $RFC_REMOTE_URL $0
         chmod +x "$0"
         return 0
     }
 
-    print_not_found_error() {
-        if [[ $1 == draft* ]]; then
-            echo "There's no such draft."
-        else
-            echo "There's no such RFC."
-        fi
-    }
-
+    # rfc help
     print_usage() {
         echo 'Usage:
     rfc --version             # display the version number and exit
@@ -161,11 +169,12 @@ __rfc() {
     rfc clear                 # clear the cache'
     }
 
+    # rfc version
     print_version() {
         echo "rfc v$VERSION - $REPO_HOME"
     }
 
-    ###
+    ## /commands ##
 
     if [ $# -eq 0 ]; then
         print_usage
