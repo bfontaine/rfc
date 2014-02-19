@@ -145,20 +145,20 @@ __rfc() {
 
     print_usage() {
         echo 'Usage:
-    rfc --version       # display the version number and exit
-    rfc --help          # display this text and exit
+    rfc --version             # display the version number and exit
+    rfc --help                # display this text and exit
 
-    rfc <number>        # display the RFC <number>
-    rfc update          # Update the script
-    rfc search [OPTS] X # Search for X in local RFCs using grep with OPTS
-                          passed through
-    rfc list            # List locally available RFCs
+    rfc <number>              # display the RFC <number>
+    rfc update                # Update the script
+    rfc search [OPTS] X       # Search for X in local RFCs using grep with OPTS
+                                passed through
+    rfc list                  # List locally available RFCs
     rfc sync [week|month|all] # batch download RFCs. `week` and `month`
                                 respectively download only RFCs that were
                                 added/updated during the last week/month.
                                 `all` (default) downloads all RFCs. It might
                                 take some time, be patient.
-    rfc clear           # clear the cache'
+    rfc clear                 # clear the cache'
     }
 
     print_version() {
