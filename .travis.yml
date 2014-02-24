@@ -1,0 +1,5 @@
+language: bash
+before_script:
+  - bash -x ./test/before.sh
+script:
+  - bash ./test/tests.sh
