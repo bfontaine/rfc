@@ -1,5 +1,7 @@
 # rfc
 
+[![Build Status](https://travis-ci.org/bfontaine/rfc.png?branch=master)](https://travis-ci.org/bfontaine/rfc)
+
 `rfc` is a little tool written in bash to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs and drafts from the Web and caches them
 locally.

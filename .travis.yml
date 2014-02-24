@@ -1,5 +1,8 @@
 language: bash
 before_script:
+  - sudo apt-get install -qq bc
   - bash -x ./test/before.sh
 script:
   - bash ./test/tests.sh
+notifications:
+  email: false
