@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bfontaine/rfc.png?branch=master)](https://travis-ci.org/bfontaine/rfc)
 
-`rfc` is a little tool written in bash to read [RFCs][ietf-rfc] from the
+`rfc` is a little tool written in Bash to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs and drafts from the Web and caches them
 locally.
 
@@ -67,6 +67,12 @@ brew install rfc
 
 - `curl` or `wget` (it’ll try `$CURL`, `curl` and `wget`, in that order)
 - `less` or another pager
+
+## Customization
+
+You can choose which directory `rfc` will use by setting the `RFC_DIR`
+environment variable. The directory is automatically created if it doesn’t
+exist.
 
 ## Credits
 
