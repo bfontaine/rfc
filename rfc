@@ -104,7 +104,7 @@ __rfc() {
 
     # rfc list
     list() {
-        \ls -1 $rfc_dir | grep '^\d\+$' | sort -n | sed 's/^/RFC /'
+        \ls -1 $rfc_dir | grep '^[0-9]\{1,\}$' | sort -n | sed 's/^/RFC /'
     }
 
     # rfc search <pattern>
@@ -133,7 +133,7 @@ __rfc() {
         rm -f $name
         [ -d in-notes ] && cd in-notes
         for f in `\ls -1 rfc*.txt`; do
-            echo "$f" | grep -q "^rfc\d\+\.txt$"
+            echo "$f" | grep -q '^rfc[0-9]\{1,\}\.txt$'
             if [ "$?" -eq "0" ]; then
                 n=${f##rfc};
                 n=${n%%.txt};
