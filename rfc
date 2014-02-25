@@ -31,7 +31,7 @@ __rfc() {
     local DRAFTS_BASEURL='http://www.ietf.org/id/'
 
     # $rfc_dir must be absolute
-    [ "${rfc_dir:0:1}" != "/" ] && $rfc_dir="$PWD/$rfc_dir"
+    [ "${rfc_dir:0:1}" != "/" ] && rfc_dir="$PWD/$rfc_dir"
 
     print_rfc() {
         $PAGER "$rfc_dir/$1"
