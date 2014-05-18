@@ -270,7 +270,7 @@ __rfc() {
             fi
 
         fi
-    
+
         print_rfc $* ;;
     esac
 
