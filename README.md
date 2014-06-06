@@ -45,7 +45,7 @@ Use `rfc help` to see all available subcommands.
 
 ```sh
 mkdir -p ~/bin
-curl https://raw.github.com/bfontaine/rfc/master/rfc > ~/bin/rfc
+curl -sL https://raw.github.com/bfontaine/rfc/master/rfc > ~/bin/rfc
 chmod u+x ~/bin/rfc
 ```
 
