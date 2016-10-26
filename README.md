@@ -52,15 +52,17 @@ chmod u+x ~/bin/rfc
 This creates the `~/bin` directory if it doesn’t exist, and download `rfc` in it.
 If it’s not in your `PATH`, you have to add it:
 
-```
+```sh
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 ```
 
-### Using homebrew
+### Using Homebrew
+
+If you use [Homebrew](http://brew.sh) or [Linuxbrew](http://linuxbrew.sh/) you
+can install `rfc` with one command:
 
 ```
-brew tap bfontaine/utils
-brew install rfc
+brew install bfontaine/utils/rfc
 ```
 
 ### Requirements
