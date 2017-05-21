@@ -24,7 +24,7 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local RFCS_TGZ_BASE_FTP='https://ftp.rfc-editor.org/in-notes/tar/'
+    local RFCS_TGZ_BASEURL='https://ftp.rfc-editor.org/in-notes/tar/'
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='https://www.rfc-editor.org/rfc/'
@@ -61,13 +61,13 @@ __rfc() {
         # $1 pattern of the file
         case $fetch_cmd in
             curl)
-                curl -sl "$RFCS_TGZ_BASE_FTP" | grep $1;
+                curl -sl "$RFCS_TGZ_BASEURL" | grep $1;
                 case "$?" in
                     6|7) return $NETWORK_ERROR ;;
                     22)  return $NOT_FOUND ;;
                 esac ;;
             wget)
-                wget -q --no-remove-listing "$RFCS_TGZ_BASE_FTP" -O/dev/null
+                wget -q --no-remove-listing "$RFCS_TGZ_BASEURL" -O/dev/null
                 case "$?" in
                     4) return $NETWORK_ERROR ;;
                     8) return $NOT_FOUND ;;
@@ -126,7 +126,7 @@ __rfc() {
         esac
 
         mkdir -p "$rfc_dir/_tmp"
-        fetch_url "$RFCS_TGZ_BASE_FTP$name" "$rfc_dir/_tmp/$name"
+        fetch_url "$RFCS_TGZ_BASEURL$name" "$rfc_dir/_tmp/$name"
         [ "$?" -ne "0" ] && exit $NETWORK_ERROR
         cd "$rfc_dir/_tmp"
         tar -xzf $name
