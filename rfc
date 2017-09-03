@@ -24,7 +24,7 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local RFCS_TGZ_BASEURL='https://ftp.rfc-editor.org/in-notes/tar/'
+    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar/'
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local RFCS_BASEURL='https://www.rfc-editor.org/rfc/'
