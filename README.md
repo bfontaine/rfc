@@ -68,7 +68,7 @@ brew install bfontaine/utils/rfc
 ### Requirements
 
 - `curl` or `wget`. It’ll try `$CURL`, then `curl`, then `wget`.
-- `less` or another pager. `rfc` use `$PAGER` if it’s set.
+- `less` or another pager. It uses `$PAGER` if it’s set.
 
 ## Customization
 
