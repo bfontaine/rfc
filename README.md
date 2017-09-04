@@ -31,7 +31,7 @@ Use `rfc help` to see all available subcommands.
 - `--version`: same as the `version` subcommand
 - `--help`: same as the `help` subcommand
 
-### Return codes
+### Exit codes
 
 - `0`: normal execution
 - `1`: the RFC cannot be found
@@ -67,14 +67,13 @@ brew install bfontaine/utils/rfc
 
 ### Requirements
 
-- `curl` or `wget` (it’ll try `$CURL`, `curl`, and `wget`, in that order)
-- `less` or another pager
+- `curl` or `wget`. It’ll try `$CURL`, then `curl`, then `wget`.
+- `less` or another pager. `rfc` use `$PAGER` if it’s set.
 
 ## Customization
 
-You can choose which directory `rfc` will use by setting the `RFC_DIR`
-environment variable. The directory is automatically created if it doesn’t
-exist.
+You can choose which directory `rfc` use by setting the `RFC_DIR` environment
+variable. The directory is automatically created if it doesn’t exist.
 
 ## Credits
 
