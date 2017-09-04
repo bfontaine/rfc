@@ -1,5 +1,9 @@
 # rfc Changelog
 
+## v0.2.4 (2017/09/05)
+
+* Fix the RFCs tarball URL
+
 ## v0.2.3 (2017/05/22)
 
 * Use HTTPS everywhere
