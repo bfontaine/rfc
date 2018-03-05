@@ -75,6 +75,8 @@ brew install bfontaine/utils/rfc
 You can choose which directory `rfc` uses by setting the `RFC_DIR` environment
 variable. The directory is automatically created if it doesn’t exist.
 
+The default directory is `~/.RFCs`.
+
 ## Credits
 
 Baptiste Fontaine and [contributors](https://github.com/bfontaine/rfc/graphs/contributors).
