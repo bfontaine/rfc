@@ -113,7 +113,7 @@ __rfc() {
             echo 'Usage: rfc search "<pattern>"'
             return $UNRECOGNIZED_CMD;
         fi
-        grep -Is --exclude _404s $@ $rfc_dir/* | sed "s%$rfc_dir/%RFC %"
+        grep -RIs --exclude _404s $@ "$rfc_dir" | sed "s%$rfc_dir/%RFC %"
         return 0
     }
 
