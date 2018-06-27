@@ -1,5 +1,14 @@
 # rfc Changelog
 
+## v0.2.5 (next release)
+
+* Use `grep -R` instead of shell globbing in `rfc search` not to break on
+  machines with low Bash `ARG_MAX` ([#12][pr12])
+* Add a special `--debug` flag to enable Bash commands tracing
+* Improve the documentation
+
+[pr12]: https://github.com/bfontaine/rfc/pull/12
+
 ## v0.2.4 (2017/09/05)
 
 * Fix the RFCs tarball URL
