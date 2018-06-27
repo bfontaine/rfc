@@ -1,9 +1,12 @@
 # rfc Changelog
 
-## v0.2.5 (next release)
+## v0.2.5 (2018/06/27)
 
 * Use `grep -R` instead of shell globbing in `rfc search` not to break on
   machines with low Bash `ARG_MAX` ([#12][pr12])
+* Fix `rfc sync week` and `rfc sync month`
+* `rfc sync` now fails if it gets passed a mode that’s not `all` (default),
+  `month`, or `week`.
 * Add a special `--debug` flag to enable Bash commands tracing
 * Improve the documentation
 

@@ -79,8 +79,8 @@ The default directory is `~/.RFCs`.
 
 ## Troubleshooting
 
-`rfc` version 0.2.5 (unreleased) added a special `--debug` flag that, if passed
-as the first argument, enables tracing of all the Bash commands in the script.
+`rfc` version 0.2.5 added a special `--debug` flag that, if passed as the first
+argument, enables tracing of all the Bash commands in the script.
 
 ## Credits
 
