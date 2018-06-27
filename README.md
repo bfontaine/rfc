@@ -34,7 +34,7 @@ Use `rfc help` to see all available subcommands.
 ### Exit codes
 
 - `0`: normal execution
-- `1`: the RFC cannot be found
+- `1`: the requested RFC or archive cannot be found
 - `2`: unrecognized option/subcommand
 - `3`: unable to connect to the network
 - `4`: can't find `curl` nor `wget`
