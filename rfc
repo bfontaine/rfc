@@ -124,6 +124,13 @@ __rfc() {
         case "$1" in
             month|30|30days) name=$(get_ftp_url "30daysTo.*gz") ;;
             week|7|7days)    name=$(get_ftp_url "7daysTo.*gz") ;;
+            all) ;;
+            *)
+              # Support 'sync' without any argument as an alias to 'sync all'
+              if [ ! -z "$1" ]; then
+                echo "Unrecognized 'sync' target: $1"
+                return $UNRECOGNIZED_CMD
+              fi ;;
         esac
         if [ $? -ne 0 ]; then
           return $?
