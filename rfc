@@ -6,7 +6,7 @@
 # License: MIT
 # Version: 0.2.5 (next release)
 #
-# URI: github.com/bfontaine/rfc
+# URL: https://github.com/bfontaine/rfc
 #
 
 __rfc() {
@@ -24,9 +24,11 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar/'
     local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
+    local ISSUES_URL='https://github.com/bfontaine/rfc/issues'
+
+    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar/'
     local RFCS_BASEURL='https://www.rfc-editor.org/rfc/'
     local DRAFTS_BASEURL='https://www.ietf.org/id/'
 
@@ -58,23 +60,22 @@ __rfc() {
     }
 
     get_ftp_url() {
-        # $1 pattern of the file
-        case $fetch_cmd in
-            curl)
-                curl -sl "$RFCS_TGZ_BASEURL" | grep $1;
-                case "$?" in
-                    6|7) return $NETWORK_ERROR ;;
-                    22)  return $NOT_FOUND ;;
-                esac ;;
-            wget)
-                wget -q --no-remove-listing "$RFCS_TGZ_BASEURL" -O/dev/null
-                case "$?" in
-                    4) return $NETWORK_ERROR ;;
-                    8) return $NOT_FOUND ;;
-                esac
-                grep -o "$1" .listing && rm -f .listing
-                ;;
-        esac
+        local tmp=$(mktemp)
+        # $1 = pattern of the file we're looking for
+        local pattern=$1
+        local fetch_exit_code=
+
+        fetch_url "$RFCS_TGZ_BASEURL" "$tmp"
+        fetch_exit_code=$?
+
+        if [ "$fetch_exit_code" -ne 0 ]; then
+          return $fetch_exit_code
+        fi
+
+        # Lines have the following format:
+        #   <li><a href="RFCs0001-0500.tar.gz"> RFCs0001-0500.tar.gz</a></li>
+        # We want this __^^^^^^^^^^^^^^^^^^^^
+        cat "$tmp" | grep "$pattern" | cut -d'"' -f2
     }
 
     get_rfc() {
@@ -124,6 +125,16 @@ __rfc() {
             month|30|30days) name=$(get_ftp_url "30daysTo.*gz") ;;
             week|7|7days)    name=$(get_ftp_url "7daysTo.*gz") ;;
         esac
+        if [ $? -ne 0 ]; then
+          return $?
+        fi
+
+        # This shouldn't happen.
+        if [ "x$name" == "x" ]; then
+          echo "I couldn't find the requested archive." >&2
+          echo "Please report this: $ISSUES_URL" >&2
+          return $NOT_FOUND
+        fi
 
         mkdir -p "$rfc_dir/_tmp"
         fetch_url "$RFCS_TGZ_BASEURL$name" "$rfc_dir/_tmp/$name"
