@@ -77,6 +77,11 @@ variable. The directory is automatically created if it doesn’t exist.
 
 The default directory is `~/.RFCs`.
 
+## Troubleshooting
+
+`rfc` version 0.2.5 (unreleased) added a special `--debug` flag that, if passed
+as the first argument, enables tracing of all the Bash commands in the script.
+
 ## Credits
 
 Baptiste Fontaine and [contributors](https://github.com/bfontaine/rfc/graphs/contributors).

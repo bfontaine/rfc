@@ -181,6 +181,13 @@ __rfc() {
         return 0
     fi
 
+    # Prefix everything with --debug to enable the debugging output on STDERR.
+    if [ "$1" == "--debug" ]; then
+      shift ;
+      echo "Enabling debug mode." >&2 ;
+      set -x ;
+    fi
+
     which curl > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         which wget > /dev/null 2>&1
