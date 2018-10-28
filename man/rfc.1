@@ -1,0 +1,68 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "RFC" "1" "October 2018" "" ""
+.
+.SH "NAME"
+\fBrfc\fR \- Read RFCs in your terminal
+.
+.SH "SYNOPSIS"
+\fBrfc\fR [<command>|<number>]
+.
+.SH "DESCRIPTION"
+Show the RFC <number> in your terminal\. It uses a local cache to avoid re\-downloading each RFC every time\.
+.
+.SH "COMMANDS"
+.
+.TP
+\fBsearch\fR \fIquery\fR
+Search for \fIquery\fR in local RFCs using \fBgrep\fR\. Options are passed through\.
+.
+.TP
+\fBlist\fR
+List locally\-available RFCs\.
+.
+.TP
+\fBsync\fR [week|month|all]
+Batch download RFCs\. \fBweek\fR and \fBmonth\fR respectively download only RFCs that were added or updated during the last week/month\. \fBall\fR (default) downloads all RFCs\. It might take some time; be patient\.
+.
+.TP
+\fBclear\fR
+Clear the local cache\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+Print the version number and exit
+.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print the help and exit
+.
+.SH "ENVIRONMENT"
+.
+.TP
+\fBRFC_DIR\fR
+Cache directory\. Default is \fB~/\.RFCs\fR\.
+.
+.TP
+\fBPAGER\fR
+The command to use to show RFCs\. Default is \fBless\fR\.
+.
+.TP
+\fBCURL\fR
+\fBcurl\fR (default) or \fBwget\fR\.
+.
+.SH "EXAMPLES"
+.
+.IP "\(bu" 4
+Read the RFC 2822 \fBrfc 2822\fR
+.
+.IP "" 0
+.
+.SH "AUTHOR"
+Written by Baptiste Fontaine <\fIb@ptistefontaine\.fr\fR>\.
+.
+.SH "BUGS"
+Bugs should be reported at \fIhttps://github\.com/bfontaine/rfc/issues\fR\.
