@@ -6,7 +6,7 @@
 command-line. It fetches RFCs and drafts from the Web and caches them
 locally.
 
-[ietf-rfc]: http://www.ietf.org/rfc.html
+[ietf-rfc]: https://www.ietf.org/standards/rfcs/
 
 ## Usage
 
