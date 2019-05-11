@@ -49,8 +49,10 @@ re-downloading each RFC every time.
 
 ## EXAMPLES
 
-  * Read the RFC 2822
-    `rfc 2822`
+Read the RFC 2822:
+
+    $ rfc 2822
+
 
 ## AUTHOR
 
