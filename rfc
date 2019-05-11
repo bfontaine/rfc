@@ -4,7 +4,7 @@
 #
 # Author: Baptiste Fontaine
 # License: MIT
-# Version: 0.2.5 (2018/06/27)
+# Version: 0.2.6 (2019/05/11)
 #
 # URL: https://github.com/bfontaine/rfc
 #
@@ -161,7 +161,7 @@ __rfc() {
         rm -rf "$rfc_dir/_tmp"
     }
 
-    # rfc update
+    # rfc update (deprecated)
     update() {
         fetch_url $RFC_REMOTE_URL $0
         chmod +x "$0"
@@ -175,7 +175,6 @@ __rfc() {
     rfc --help                # display this text and exit
 
     rfc <number>              # display the RFC <number>
-    rfc update                # Update the script
     rfc search [OPTS] X       # Search for X in local RFCs using grep with OPTS
                                 passed through
     rfc list                  # List locally available RFCs

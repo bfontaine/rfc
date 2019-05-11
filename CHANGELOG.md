@@ -1,5 +1,11 @@
 # rfc Changelog
 
+## v0.2.6 (2019/05/11)
+
+* Add a manpage
+* Deprecate the `update` command, that self-updates the script. It’s still
+  there, but it doesn’t appear in the documentation.
+
 ## v0.2.5 (2018/06/27)
 
 * Use `grep -R` instead of shell globbing in `rfc search` not to break on

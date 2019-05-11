@@ -45,7 +45,7 @@ Use `rfc help` to see all available subcommands.
 
 ```sh
 mkdir -p ~/bin
-curl -sL https://raw.githubusercontent.com/bfontaine/rfc/master/rfc > ~/bin/rfc
+curl -sL https://raw.githubusercontent.com/bfontaine/rfc/v0.2.6/rfc > ~/bin/rfc
 chmod u+x ~/bin/rfc
 ```
 
@@ -55,6 +55,10 @@ If it’s not in your `PATH`, you have to add it:
 ```sh
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 ```
+
+You may also want to install the `manpage`, located in [`man/rfc.1`][manpage].
+
+[manpage]: https://raw.githubusercontent.com/bfontaine/rfc/v0.2.6/man/rfc.1
 
 ### Using Homebrew
 
@@ -79,8 +83,8 @@ The default directory is `~/.RFCs`.
 
 ## Troubleshooting
 
-`rfc` version 0.2.5 added a special `--debug` flag that, if passed as the first
-argument, enables tracing of all the Bash commands in the script.
+`rfc` version 0.2.5 and above has a special `--debug` flag that, if passed as
+the first argument, enables tracing of all the Bash commands in the script.
 
 ## Credits
 
