@@ -69,6 +69,12 @@ can install `rfc` with one command:
 brew install bfontaine/utils/rfc
 ```
 
+### Archlinux
+
+For archlinux users, you can use the AUR package [rfc-read](https://aur.archlinux.org/packages/rfc-read/).
+
+The command for use it is `rfc`.
+
 ### Requirements
 
 - `curl` or `wget`. It’ll try `$CURL`, then `curl`, then `wget`.
