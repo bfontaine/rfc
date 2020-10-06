@@ -24,7 +24,7 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local RFC_REMOTE_URL='https://raw.github.com/bfontaine/rfc/master/rfc'
+    local RFC_REMOTE_URL='https://raw.githubusercontent.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local ISSUES_URL='https://github.com/bfontaine/rfc/issues'
 
