@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bfontaine/rfc.png?branch=master)](https://travis-ci.org/bfontaine/rfc)
 
-`rfc` is a little tool written in Bash to read [RFCs][ietf-rfc] from the
+`rfc` is a simple tool written in Bash to read [RFCs][ietf-rfc] from the
 command-line. It fetches RFCs and drafts from the Web and caches them
 locally.
 
@@ -77,7 +77,7 @@ The command for use it is `rfc`.
 
 ### Requirements
 
-- `curl` or `wget`. It’ll try `$CURL`, then `curl`, then `wget`.
+- `curl` or `wget`. It uses `$CURL` if it’s set, and fallback on `curl` and then `wget`.
 - `less` or another pager. It uses `$PAGER` if it’s set.
 
 ## Customization
