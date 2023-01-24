@@ -75,6 +75,9 @@ For archlinux users, you can use the AUR package [rfc-read](https://aur.archlinu
 
 The command for use it is `rfc`.
 
+### openSUSE
+The openSUSE package is called [rfc-read](https://build.opensuse.org/package/show/utilities/rfc-read) and can be installed via `zypper in rfc-read`.
+
 ### Requirements
 
 - `curl` or `wget`. It uses `$CURL` if it’s set, and fallback on `curl` and then `wget`.
