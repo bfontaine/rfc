@@ -1,6 +1,7 @@
 # Contributing to `rfc`
 
-Thank you for contributing to `rfc`! The tool is now stable and we don’t plan to add more features to it.
+Thank you for contributing to `rfc`! The tool is now stable and we don’t plan
+to add more features to it.
 
 ## Manpage
 
