@@ -60,7 +60,8 @@ __rfc() {
     }
 
     get_ftp_url() {
-        local tmp=$(mktemp)
+        local tmp
+        tmp=$(mktemp)
         # $1 = pattern of the file we're looking for
         local pattern=$1
         local fetch_exit_code=
@@ -75,7 +76,7 @@ __rfc() {
         # Lines have the following format:
         #   <li><a href="RFCs0001-0500.tar.gz"> RFCs0001-0500.tar.gz</a></li>
         # We want this __^^^^^^^^^^^^^^^^^^^^
-        cat "$tmp" | grep "$pattern" | cut -d'"' -f2
+        < "$tmp" grep "$pattern" | cut -d'"' -f2
     }
 
     get_rfc() {
@@ -89,8 +90,8 @@ __rfc() {
     }
 
     init_rfc_dir() {
-        mkdir -p $rfc_dir
-        touch $rfc_dir/_404s
+        mkdir -p "$rfc_dir"
+        touch "$rfc_dir"/_404s
     }
 
     print_not_found_error() {
@@ -170,6 +171,7 @@ __rfc() {
 
     # rfc help
     print_usage() {
+        # shellcheck disable=SC2016
         echo 'Usage:
     rfc --version             # display the version number and exit
     rfc --help                # display this text and exit
