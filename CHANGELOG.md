@@ -2,11 +2,18 @@
 
 ## v1.0.0 (unreleased)
 
-* Change the default cache directory location from `~/.RFCs` to `~/.cache/RFCs`
-* Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not, use `$XDG_CACHE_HOME/RFCs`
+* Change the default cache directory location from `~/.RFCs`
+  to `~/.cache/RFCs`
+* Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not,
+  use `$XDG_CACHE_HOME/RFCs`
 * Show the default and current cache directories in the help text
-* Fix the version shown by `--version`: in v0.2.6 it still showed 0.2.5
+* Fix the version shown by `--version`
 * Remove the `update` command which has been deprecated in v0.2.6
+
+This version contains no important breaking change (the directory
+changing location is just a cache; the `update` command was deprecated
+long ago), but the interface has been stable for the past 5+ years
+so it’s time to get out of the 0.x releases.
 
 ## v0.2.6 (2019/05/11)
 
