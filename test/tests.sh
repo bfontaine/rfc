@@ -20,7 +20,9 @@ __rfc_tests() {
     # `rfc` with no arguments should exit properly
     assert_raises "$rfc"
 
-    # an error should occure if the RFC doesn't exist
+    assert_raises "$rfc --version"
+
+    # an error should occur if the RFC doesn't exist
     assert "$rfc doesntexist42foo" "There's no such RFC."
     assert_raises "$rfc doesntexist43foo" 1
 
