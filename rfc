@@ -11,7 +11,7 @@
 
 __rfc() {
 
-    local VERSION='0.2.5'
+    local VERSION='0.2.6'
     local PAGER=${PAGER:-less}
     local fetch_cmd=${CURL:-curl}
     local rfc_dir="${RFC_DIR:-$HOME/.RFCs}"
