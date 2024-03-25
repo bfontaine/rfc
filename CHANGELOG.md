@@ -6,11 +6,12 @@
 * Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not, use `$XDG_CACHE_HOME/RFCs`
 * Show the default and current cache directories in the help text
 * Fix the version shown by `--version`: in v0.2.6 it still showed 0.2.5
+* Remove the `update` command which has been deprecated in v0.2.6
 
 ## v0.2.6 (2019/05/11)
 
 * Add a manpage
-* Deprecate the `update` command, that self-updates the script. It’s still
+* Deprecate the `update` command that self-updates the script. It’s still
   there, but it doesn’t appear in the documentation.
 
 ## v0.2.5 (2018/06/27)

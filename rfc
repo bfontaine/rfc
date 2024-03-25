@@ -25,7 +25,6 @@ __rfc() {
     local NO_CURL_WGET=4
 
     # URLs
-    local RFC_REMOTE_URL='https://raw.githubusercontent.com/bfontaine/rfc/master/rfc'
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local ISSUES_URL='https://github.com/bfontaine/rfc/issues'
 
@@ -171,13 +170,6 @@ __rfc() {
         rm -rf "$rfc_dir/_tmp"
     }
 
-    # rfc update (deprecated)
-    update() {
-        fetch_url $RFC_REMOTE_URL $0
-        chmod +x "$0"
-        return 0
-    }
-
     # rfc help
     print_usage() {
         # shellcheck disable=SC2016
@@ -251,10 +243,6 @@ The current one is '"$rfc_dir"'.'
 
         clear|clean|clr)
             rm -rf $rfc_dir
-            return 0;;
-
-        up|update)
-            update
             return 0;;
 
         ls|list)
