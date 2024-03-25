@@ -1,5 +1,12 @@
 # rfc Changelog
 
+## v1.0.0 (unreleased)
+
+* Change the default cache directory location from `~/.RFCs` to `~/.cache/RFCs`
+* Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not, use `$XDG_CACHE_HOME/RFCs`
+* Show the default and current cache directories in the help text
+* Fix the version shown by `--version`: in v0.2.6 it still showed 0.2.5
+
 ## v0.2.6 (2019/05/11)
 
 * Add a manpage

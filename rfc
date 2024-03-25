@@ -14,8 +14,9 @@ __rfc() {
     local VERSION='0.2.6'
     local PAGER=${PAGER:-less}
     local fetch_cmd=${CURL:-curl}
-    local rfc_dir="${RFC_DIR:-$HOME/.RFCs}"
-    local code=
+    local rfc_dir
+    local default_rfc_dir="$HOME/.cache/RFCs"
+    local code
 
     # Error codes
     local NOT_FOUND=1
@@ -31,6 +32,14 @@ __rfc() {
     local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar/'
     local RFCS_BASEURL='https://www.rfc-editor.org/rfc/'
     local DRAFTS_BASEURL='https://www.ietf.org/id/'
+
+    if [ -n "$RFC_DIR" ]; then
+      rfc_dir="$RFC_DIR"
+    elif [ -n "$XDG_CACHE_HOME" ]; then
+      rfc_dir="$XDG_CACHE_HOME/RFCs"
+    else
+      rfc_dir="$default_rfc_dir"
+    fi
 
     # $rfc_dir must be absolute
     [ "${rfc_dir:0:1}" != "/" ] && rfc_dir="$PWD/$rfc_dir"
@@ -185,7 +194,10 @@ __rfc() {
                                 added/updated during the last week/month.
                                 `all` (default) downloads all RFCs. It might
                                 take some time, be patient.
-    rfc clear                 # clear the cache'
+    rfc clear                 # clear the cache
+
+The default cache directory is'"$default_rfc_dir"'.
+The current one is '"$rfc_dir"'.'
     }
 
     # rfc version
