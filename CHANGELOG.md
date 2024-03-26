@@ -3,7 +3,7 @@
 ## v1.0.0 (unreleased)
 
 * Change the default cache directory location from `~/.RFCs`
-  to `~/.cache/RFCs`
+  to `~/.cache/RFCs`. Files are automatically migrated if needed.
 * Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not,
   use `$XDG_CACHE_HOME/RFCs`
 * Show the default and current cache directories in the help text

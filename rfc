@@ -97,9 +97,27 @@ __rfc() {
         return $?
     }
 
+    migrate_rfc_dir() {
+        local previous_rfc_dir="$HOME/.RFCs"
+        if [ -f "$previous_rfc_dir/_404s" ] && [ "$rfc_dir" != "$previous_rfc_dir" ]; then
+          # Migrate _404s
+          cat "$previous_rfc_dir/_404s" >> "$rfc_dir/_404s"
+          rm "$previous_rfc_dir/_404s"
+          # Migrate the RFC files
+          mv "$previous_rfc_dir"/* "$rfc_dir/"
+
+          echo "In 1.0.0 the RFC cache directory moved from $previous_rfc_dir to $rfc_dir." >&2
+          echo "All files were migrated; you can now run \`rmdir '$previous_rfc_dir'\`" >&2
+        fi
+    }
+
     init_rfc_dir() {
         mkdir -p "$rfc_dir"
         touch "$rfc_dir"/_404s
+
+        if [ -z "$RFC_TEST" ]; then
+          migrate_rfc_dir
+        fi
     }
 
     print_not_found_error() {
