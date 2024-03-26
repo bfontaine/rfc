@@ -43,7 +43,7 @@ Use `rfc help` to see all available subcommands.
 
 ```sh
 mkdir -p ~/bin
-curl -sL https://raw.githubusercontent.com/bfontaine/rfc/v0.2.6/rfc > ~/bin/rfc
+curl -sL https://raw.githubusercontent.com/bfontaine/rfc/v1.0.0/rfc > ~/bin/rfc
 chmod u+x ~/bin/rfc
 ```
 
@@ -56,7 +56,7 @@ echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 
 You may also want to install the `manpage`, located in [`man/rfc.1`][manpage].
 
-[manpage]: https://raw.githubusercontent.com/bfontaine/rfc/master/man/rfc.1
+[manpage]: https://raw.githubusercontent.com/bfontaine/rfc/v1.0.0/man/rfc.1
 
 ### Using Homebrew
 

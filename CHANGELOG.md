@@ -1,6 +1,6 @@
 # rfc Changelog
 
-## v1.0.0 (unreleased)
+## v1.0.0 (2024/03/26)
 
 * Change the default cache directory location from `~/.RFCs`
   to `~/.cache/RFCs`. Files are automatically migrated if needed.
