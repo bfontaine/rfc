@@ -5,15 +5,21 @@
 * Change the default cache directory location from `~/.RFCs`
   to `~/.cache/RFCs`. Files are automatically migrated if needed.
 * Respect `$XDG_CACHE_HOME`: if it’s set and `$RFC_DIR` is not,
-  use `$XDG_CACHE_HOME/RFCs`
-* Show the default and current cache directories in the help text
+  use `$XDG_CACHE_HOME/RFCs` ([#21][i21])
 * Fix the version shown by `--version`
 * Remove the `update` command which has been deprecated in v0.2.6
+
+Documentation:
+* Show the default and current cache directories in the help text
+* Document `--debug` in the manpage
+* Add exit codes in the manpage
 
 This version contains no important breaking change (the directory
 changing location is just a cache; the `update` command was deprecated
 long ago), but the interface has been stable for the past 5+ years
 so it’s time to get out of the 0.x releases.
+
+[i21]: https://github.com/bfontaine/rfc/issues/21
 
 ## v0.2.6 (2019/05/11)
 
