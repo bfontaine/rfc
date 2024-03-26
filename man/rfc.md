@@ -40,9 +40,13 @@ re-downloading each RFC every time.
 ## EXIT CODES
 
   0  Success.
+
   1  RFC not found.
+
   2  Unrecognized command.
+
   3  Network error.
+
   4  Neither `curl` nor `wget` are installed.
 
 ## ENVIRONMENT

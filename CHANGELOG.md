@@ -1,5 +1,9 @@
 # rfc Changelog
 
+## Unreleased
+
+* Fix the exit codes formatting in the manpage
+
 ## v1.0.0 (2024/03/26)
 
 * Change the default cache directory location from `~/.RFCs`
