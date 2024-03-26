@@ -6,20 +6,24 @@ __rfc_tests() {
 
     . assert.sh
 
-    local _tmp_rfc_dir=foobar
+    local tmp_dir
     local rfc=./rfc
 
-    export RFC_DIR=$_tmp_rfc_dir
+    tmp_dir="$(mktemp -d)"
+    rm -r "$tmp_dir"
 
+    export PAGER=cat
+    export RFC_TEST=1
+    export XDG_CACHE_HOME="$tmp_dir/a"
 
     ## == tests == ##
 
-    # tests directory should NOT exist before
-    assert_raises "[ ! -d $_tmp_rfc_dir ]"
+    # cache directory should not exist before
+    assert_raises "[ ! -d $XDG_CACHE_HOME ]"
 
     # `rfc` with no arguments should exit properly
     assert_raises "$rfc"
-
+    # idem with --version
     assert_raises "$rfc --version"
 
     # an error should occur if the RFC doesn't exist
@@ -27,12 +31,25 @@ __rfc_tests() {
     assert_raises "$rfc doesntexist43foo" 1
 
     # tests directory should have been automatically created
-    assert_raises "[ -d $_tmp_rfc_dir ]"
+    assert_raises "[ -d $XDG_CACHE_HOME/RFCs ]"
+    # The RFC that doesn't exist should be cached in _404s
+    assert_raises "grep -q doesntexist42foo '$XDG_CACHE_HOME/RFCs/_404s'"
 
+    assert_raises "$rfc 41"
+    assert_raises "[ -f '$XDG_CACHE_HOME/RFCs/41' ]"
+
+    # Override the default cache location with $RFC_DIR
+    export RFC_DIR="$tmp_dir/b"
+
+    assert_raises "$rfc 42"
+    assert_raises "[ -f '$RFC_DIR/42' ]"
+    assert_raises "[ ! -f '$XDG_CACHE_HOME/RFCs/42' ]"
+
+    assert "$rfc list" 'RFC 42'
 
     ## == teardown == ##
 
-    rm -rf $_tmp_rfc_dir
+    rm -rf "$tmp_dir"
 
     assert_end rfc
 }
