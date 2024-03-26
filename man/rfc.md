@@ -2,7 +2,7 @@
 
 ## SYNOPSIS
 
-`rfc` [&lt;command&gt;|&lt;number&gt;]
+`rfc` [&lt;command&gt;\|&lt;number&gt;]
 
 ## DESCRIPTION
 
@@ -17,7 +17,7 @@ re-downloading each RFC every time.
   * `list`:
     List locally-available RFCs.
 
-  * `sync` [week|month|all]:
+  * `sync` [week\|month\|all]:
     Batch download RFCs. `week` and `month` respectively download only RFCs
     that were added or updated during the last week/month.
     `all` (default) downloads all RFCs. It might take some time; be patient.
@@ -34,6 +34,16 @@ re-downloading each RFC every time.
   * `-h`, `--help`:
     Print the help and exit
 
+  * `--debug`:
+    Enable the tracing of all Bash commands. This must be the first argument.
+
+## EXIT CODES
+
+  0  Success.
+  1  RFC not found.
+  2  Unrecognized command.
+  3  Network error.
+  4  Neither `curl` nor `wget` are installed.
 
 ## ENVIRONMENT
 
@@ -54,11 +64,11 @@ Read the RFC 2822:
 
     $ rfc 2822
 
+## BUGS
+
+Bugs should be reported at <https://github.com/bfontaine/rfc/issues>.
+
 
 ## AUTHOR
 
 Written by Baptiste Fontaine <<b@ptistefontaine.fr>\>.
-
-## BUGS
-
-Bugs should be reported at <https://github.com/bfontaine/rfc/issues>.
