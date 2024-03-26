@@ -8,6 +8,7 @@
   use `$XDG_CACHE_HOME/RFCs` ([#21][i21])
 * Fix the version shown by `--version`
 * Remove the `update` command which has been deprecated in v0.2.6
+* Fix most shellcheck warnings in the code
 
 Documentation:
 * Show the default and current cache directories in the help text
@@ -25,7 +26,7 @@ so it’s time to get out of the 0.x releases.
 
 * Add a manpage
 * Deprecate the `update` command that self-updates the script. It’s still
-  there, but it doesn’t appear in the documentation.
+  there, but it doesn't appear in the documentation.
 
 ## v0.2.5 (2018/06/27)
 
@@ -66,13 +67,13 @@ so it’s time to get out of the 0.x releases.
 * Add the `list` subcommand
 * Add instructions for installation in the README
 * Add the ability to show drafts
-* Deprecate the install script
+* Deprecate the installation script
 * Various improvements
 
 ## v0.1.0 (2013/07/17)
 
 * Add the `search` and `update` subcommands
-* Improve the install script
+* Improve the installation script
 * Improve the errors handling
 
 ## v0.0.4 (2013/03/24)
