@@ -6,16 +6,14 @@ to add more features to it.
 ## Manpage
 
 To update the manpage, edit `man/rfc.md` ([format documentation][format]), then
-run `ronn man/rfc.md`.
+run `make`.
 
-You can install [`ronn`][ronn] with `gem install ronn`.
+You need [`ronn`][ronn]; install it with `gem install ronn-ng`.
 
-[ronn]: https://github.com/rtomayko/ronn#ronn
+[ronn]: https://github.com/apjanke/ronn-ng?tab=readme-ov-file#ronn-ng
 [format]: https://rtomayko.github.io/ronn/ronn-format.7.html
 
 ## Tests
 
-You can run tests with the following command:
-
-    ./test/tests.sh
+Run tests with `make test`.
 
