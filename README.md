@@ -56,14 +56,14 @@ echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 
 You may also want to install the `manpage`, located in [`man/rfc.1`][manpage].
 
-[manpage]: https://raw.githubusercontent.com/bfontaine/rfc/v0.2.6/man/rfc.1
+[manpage]: https://raw.githubusercontent.com/bfontaine/rfc/master/man/rfc.1
 
 ### Using Homebrew
 
 If you use [Homebrew](http://brew.sh) or [Linuxbrew](http://linuxbrew.sh/) you
 can install `rfc` with one command:
 
-```
+```sh
 brew install bfontaine/utils/rfc
 ```
 
@@ -74,7 +74,8 @@ For archlinux users, you can use the AUR package [rfc-read](https://aur.archlinu
 The command for use it is `rfc`.
 
 ### openSUSE
-The openSUSE package is called [rfc-read](https://build.opensuse.org/package/show/utilities/rfc-read) and can be installed via `zypper in rfc-read`.
+The openSUSE package is called [rfc-read](https://build.opensuse.org/package/show/utilities/rfc-read)
+and can be installed via `zypper in rfc-read`.
 
 ### Requirements
 
@@ -86,7 +87,7 @@ The openSUSE package is called [rfc-read](https://build.opensuse.org/package/sho
 You can choose which directory `rfc` uses by setting the `RFC_DIR` environment
 variable. The directory is automatically created if it doesn’t exist.
 
-The default directory is `~/.RFCs`.
+The default directory is `$XDG_CACHE_HOME/RFCs` if `XDG_CACHE_HOME` is set, otherwise `~/.cache/RFCs`.
 
 ## Troubleshooting
 

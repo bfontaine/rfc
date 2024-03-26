@@ -38,7 +38,8 @@ re-downloading each RFC every time.
 ## ENVIRONMENT
 
   * `RFC_DIR`:
-    Cache directory. Default is `~/.RFCs`.
+    Cache directory. Default is `$XDG_CACHE_HOME/RFCs` if `XDG_CACHE_HOME`
+    is defined, otherwise `~/.cache/RFCs`.
 
   * `PAGER`:
     The command to use to show RFCs. Default is `less`.
