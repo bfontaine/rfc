@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Fix the exit codes formatting in the manpage
+* Fix a missing space in the `--help` text
 
 ## v1.0.0 (2024/03/26)
 

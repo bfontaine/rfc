@@ -211,7 +211,7 @@ __rfc() {
                                 take some time, be patient.
     rfc clear                 # clear the cache
 
-The default cache directory is'"$default_rfc_dir"'.
+The default cache directory is '"$default_rfc_dir"'.
 The current one is '"$rfc_dir"'.'
     }
 
