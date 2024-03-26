@@ -71,7 +71,7 @@ __rfc() {
         local tmp
         tmp=$(mktemp)
         # $1 = pattern of the file we're looking for
-        local pattern=$1
+        local pattern="$1"
         local fetch_exit_code=
 
         fetch_url "$RFCS_TGZ_BASEURL" "$tmp"
@@ -88,12 +88,12 @@ __rfc() {
     }
 
     get_rfc() {
-        fetch_url "$RFCS_BASEURL/rfc${1}.txt" "$rfc_dir/${1}"
+        fetch_url "$RFCS_BASEURL/rfc$1.txt" "$rfc_dir/$1"
         return $?
     }
 
     get_draft() {
-        fetch_url "$DRAFTS_BASEURL/${1}.txt" "$rfc_dir/${1}"
+        fetch_url "$DRAFTS_BASEURL/$1.txt" "$rfc_dir/$1"
         return $?
     }
 
@@ -104,7 +104,7 @@ __rfc() {
           cat "$previous_rfc_dir/_404s" >> "$rfc_dir/_404s"
           rm "$previous_rfc_dir/_404s"
           # Migrate the RFC files
-          mv "$previous_rfc_dir"/* "$rfc_dir/"
+          mv -f "$previous_rfc_dir"/* "$rfc_dir/"
 
           echo "In 1.0.0 the RFC cache directory moved from $previous_rfc_dir to $rfc_dir." >&2
           echo "All files were migrated; you can now run \`rmdir '$previous_rfc_dir'\`" >&2
@@ -121,7 +121,7 @@ __rfc() {
     }
 
     print_not_found_error() {
-        if [[ $1 == draft* ]]; then
+        if [[ "$1" == draft* ]]; then
             echo "There's no such draft."
         else
             echo "There's no such RFC."
@@ -132,7 +132,7 @@ __rfc() {
 
     # rfc list
     list() {
-        \ls -1 $rfc_dir | grep '^[0-9]\{1,\}$' | sort -n | sed 's/^/RFC /'
+        \ls -1 "$rfc_dir" | grep '^[0-9]\{1,\}$' | sort -n | sed 's/^/RFC /'
     }
 
     # rfc search <pattern>
@@ -146,6 +146,7 @@ __rfc() {
     }
 
     # rfc sync [week|month|all]
+    # shellcheck disable=SC2164
     sync_rfcs() {
         local name=RFC-all.tar.gz
         case "$1" in
@@ -159,30 +160,34 @@ __rfc() {
                 return $UNRECOGNIZED_CMD
               fi ;;
         esac
+        # shellcheck disable=SC2181
         if [ $? -ne 0 ]; then
           return $?
         fi
 
         # This shouldn't happen.
-        if [ "x$name" == "x" ]; then
+        if [ -z "$name" ]; then
           echo "I couldn't find the requested archive." >&2
           echo "Please report this: $ISSUES_URL" >&2
           return $NOT_FOUND
         fi
 
         mkdir -p "$rfc_dir/_tmp"
-        fetch_url "$RFCS_TGZ_BASEURL$name" "$rfc_dir/_tmp/$name"
-        [ "$?" -ne "0" ] && exit $NETWORK_ERROR
+        if fetch_url "$RFCS_TGZ_BASEURL$name" "$rfc_dir/_tmp/$name"; then
+          :
+        else
+          exit $NETWORK_ERROR
+        fi
         cd "$rfc_dir/_tmp"
-        tar -xzf $name
-        rm -f $name
+        tar -xzf "$name"
+        rm -f "$name"
         [ -d in-notes ] && cd in-notes
-        for f in `\ls -1 rfc*.txt`; do
+        for f in rfc*.txt; do
             echo "$f" | grep -q '^rfc[0-9]\{1,\}\.txt$'
             if [ "$?" -eq "0" ]; then
                 n=${f##rfc};
                 n=${n%%.txt};
-                mv -f $f $rfc_dir/$n
+                mv -f "$f" "$rfc_dir/$n"
             fi
         done
         rm -rf "$rfc_dir/_tmp"
@@ -229,17 +234,13 @@ The current one is '"$rfc_dir"'.'
       set -x ;
     fi
 
-    which curl > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        which wget > /dev/null 2>&1
-
-        if [ $? -ne 0 ]; then
+    if which curl > /dev/null 2>&1; then
+        if which wget > /dev/null 2>&1; then
+          fetch_cmd='wget'
+        else
             echo "Error: You need Wget or cURL!"
             return $NO_CURL_WGET;
         fi
-
-        fetch_cmd='wget'
-
     fi
 
     init_rfc_dir
@@ -260,7 +261,7 @@ The current one is '"$rfc_dir"'.'
             return $UNRECOGNIZED_CMD;;
 
         clear|clean|clr)
-            rm -rf $rfc_dir
+            rm -rf "$rfc_dir"
             return 0;;
 
         ls|list)
@@ -269,12 +270,12 @@ The current one is '"$rfc_dir"'.'
 
         search|find)
             shift;
-            search $*
+            search "$@"
             return $?;;
 
         sync|download)
             shift;
-            sync_rfcs $*
+            sync_rfcs "$@"
             return $?;;
 
         _*)
@@ -282,18 +283,16 @@ The current one is '"$rfc_dir"'.'
             return 1;;
 
         *)
-        grep -q "^$1\$" "$rfc_dir/_404s" 2> /dev/null
-        if [ $? -eq 0 ]; then
-
+        if grep -q "^$1\$" "$rfc_dir/_404s" 2> /dev/null; then
             print_not_found_error "$1"
             return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
 
-            if [[ $1 == draft* ]]; then
-                get_draft $1
+            if [[ "$1" == draft* ]]; then
+                get_draft "$1"
             else
-                get_rfc $1
+                get_rfc "$1"
             fi
 
             code=$?
@@ -315,10 +314,10 @@ The current one is '"$rfc_dir"'.'
 
         fi
 
-        print_rfc $* ;;
+        print_rfc "$@" ;;
     esac
 
 }
 
-__rfc $*
+__rfc "$@"
 
