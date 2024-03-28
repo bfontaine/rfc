@@ -11,7 +11,7 @@ locally.
 Just type `rfc` followed by the RFC number or the draft name:
 
 ```
-$ rfc <RFC num>
+$ rfc <RFC number>
 ```
 
 e.g.:

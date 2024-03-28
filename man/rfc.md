@@ -2,7 +2,7 @@
 
 ## SYNOPSIS
 
-`rfc` [&lt;command&gt;\|&lt;number&gt;]
+`rfc` &lt;command&gt;\|&lt;number&gt;
 
 ## DESCRIPTION
 
@@ -52,14 +52,14 @@ re-downloading each RFC every time.
 ## ENVIRONMENT
 
   * `RFC_DIR`:
-    Cache directory. Default is `$XDG_CACHE_HOME/RFCs` if `XDG_CACHE_HOME`
+    Cache directory. The default is `$XDG_CACHE_HOME/RFCs` if `XDG_CACHE_HOME`
     is defined, otherwise `~/.cache/RFCs`.
 
   * `PAGER`:
-    The command to use to show RFCs. Default is `less`.
+    Command to use to show RFCs. The default is `less`.
 
   * `CURL`:
-    `curl` (default) or `wget`.
+    Command to use to download RFCs: `curl` (default) or `wget`.
 
 
 ## EXAMPLES

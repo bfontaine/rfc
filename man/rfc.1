@@ -4,7 +4,7 @@
 .SH "NAME"
 \fBrfc\fR \- Read RFCs in your terminal
 .SH "SYNOPSIS"
-\fBrfc\fR [<command>|<number>]
+\fBrfc\fR <command>|<number>
 .SH "DESCRIPTION"
 Show the RFC <number> in your terminal\. It uses a local cache to avoid re\-downloading each RFC every time\.
 .SH "COMMANDS"
@@ -43,13 +43,13 @@ Enable the tracing of all Bash commands\. This must be the first argument\.
 .SH "ENVIRONMENT"
 .TP
 \fBRFC_DIR\fR
-Cache directory\. Default is \fB$XDG_CACHE_HOME/RFCs\fR if \fBXDG_CACHE_HOME\fR is defined, otherwise \fB~/\.cache/RFCs\fR\.
+Cache directory\. The default is \fB$XDG_CACHE_HOME/RFCs\fR if \fBXDG_CACHE_HOME\fR is defined, otherwise \fB~/\.cache/RFCs\fR\.
 .TP
 \fBPAGER\fR
-The command to use to show RFCs\. Default is \fBless\fR\.
+Command to use to show RFCs\. The default is \fBless\fR\.
 .TP
 \fBCURL\fR
-\fBcurl\fR (default) or \fBwget\fR\.
+Command to use to download RFCs: \fBcurl\fR (default) or \fBwget\fR\.
 .SH "EXAMPLES"
 Read the RFC 2822:
 .IP "" 4
