@@ -11,8 +11,8 @@ re-downloading each RFC every time.
 
 ## COMMANDS
 
-  * `search` <query>:
-    Search for <query> in local RFCs using `grep`. Options are passed through.
+  * `search` &lt;query&gt;:
+    Search for &lt;query&gt; in local RFCs using `grep`. Options are passed through.
 
   * `list`:
     List locally-available RFCs.
