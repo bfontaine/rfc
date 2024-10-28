@@ -1,8 +1,8 @@
 # rfc Changelog
 
-## v1.0.1 (unreleased)
+## v1.0.1 (2024/10/28)
 
-* Fix formatting in the manpage
+* Fix formatting in the manpage (#22)
 * Fix a missing space in the `--help` text
 
 ## v1.0.0 (2024/03/26)
