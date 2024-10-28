@@ -75,4 +75,4 @@ Bugs should be reported at <https://github.com/bfontaine/rfc/issues>.
 
 ## AUTHOR
 
-Written by Baptiste Fontaine <<b@ptistefontaine.fr>\>.
+Written by Baptiste Fontaine &lt;b@ptistefontaine.fr&gt;.
