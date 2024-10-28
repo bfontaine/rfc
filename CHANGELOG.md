@@ -2,8 +2,10 @@
 
 ## v1.0.1 (2024/10/28)
 
-* Fix formatting in the manpage (#22)
+* Fix formatting in the manpage ([#22][i22])
 * Fix a missing space in the `--help` text
+
+[i22]: https://github.com/bfontaine/rfc/issues/22
 
 ## v1.0.0 (2024/03/26)
 
