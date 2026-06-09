@@ -132,7 +132,15 @@ __rfc() {
 
     # rfc list
     list() {
-        \ls -1 "$rfc_dir" | grep '^[0-9]\{1,\}$' | sort -n | sed 's/^/RFC /'
+        find "$rfc_dir" -maxdepth 1 -type f -regex '.*/[^_/]*' -print | sort | xargs -I {} awk '
+          /./ && !prev    { i++ }
+          /./ && i == 2   { title = title " " $0 }
+          /./ && i > 2    { n = split(FILENAME, a, "/")
+                            gsub(" +", " ", title)
+                            gsub("^ *", "", title)
+                            print "RFC " a[n] ": " title
+                            exit }
+                          { prev = $0 }' {}
     }
 
     # rfc search <pattern>
