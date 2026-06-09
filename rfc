@@ -28,9 +28,9 @@ __rfc() {
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local ISSUES_URL='https://github.com/bfontaine/rfc/issues'
 
-    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar/'
-    local RFCS_BASEURL='https://www.rfc-editor.org/rfc/'
-    local DRAFTS_BASEURL='https://www.ietf.org/id/'
+    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar'
+    local RFCS_BASEURL='https://www.rfc-editor.org/rfc'
+    local DRAFTS_BASEURL='https://www.ietf.org/id'
 
     if [ -n "$RFC_DIR" ]; then
       rfc_dir="$RFC_DIR"
@@ -181,7 +181,7 @@ __rfc() {
         fi
 
         mkdir -p "$rfc_dir/_tmp"
-        if fetch_url "$RFCS_TGZ_BASEURL$name" "$rfc_dir/_tmp/$name"; then
+        if fetch_url "$RFCS_TGZ_BASEURL/$name" "$rfc_dir/_tmp/$name"; then
           :
         else
           exit $NETWORK_ERROR
