@@ -7,18 +7,24 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
+    name: Test (Bash ${{ matrix.bash }})
     runs-on: ubuntu-latest
     timeout-minutes: 3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        bash: [ "3.2", "4", "5" ]
+
+    container: bash:${{ matrix.bash }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install bc
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: bc
+      - name: Install dependencies
+        run: apk add --no-cache bc curl make
 
       - name: Tests
         run: |
