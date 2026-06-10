@@ -168,16 +168,17 @@ __rfc() {
           rm -rf "$rfc_dir/_tmp"
           return $NETWORK_ERROR
         fi
+        echo "Moving the RFCs into the cache; this can take a minute..."
         cd "$rfc_dir/_tmp"
+        # The regex must be in a variable: bash < 3.2 can't parse it inline.
+        local rfc_txt_re='^rfc([0-9]+)\.txt$'
         for f in rfc*.txt; do
-            echo "$f" | grep -q '^rfc[0-9]\{1,\}\.txt$'
-            if [ "$?" -eq "0" ]; then
-                n=${f##rfc};
-                n=${n%%.txt};
-                mv -f "$f" "$rfc_dir/$n"
+            if [[ "$f" =~ $rfc_txt_re ]]; then
+                mv -f "$f" "$rfc_dir/${BASH_REMATCH[1]}"
             fi
         done
         rm -rf "$rfc_dir/_tmp"
+        echo "Done."
     }
 
     # rfc help
