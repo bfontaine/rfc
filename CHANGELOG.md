@@ -1,5 +1,13 @@
 # rfc Changelog
 
+## v1.0.3 (2026/06/10)
+
+All the changes in this release have been implemented by @baumea.
+
+* numeric sort cached RFCs (fixes a regression in the previous version)
+* right align numeric RFCs
+* list drafts
+
 ## v1.0.2 (2026/06/10)
 
 All the changes in this release have been implemented by @baumea.
