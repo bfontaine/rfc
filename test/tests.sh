@@ -45,7 +45,7 @@ __rfc_tests() {
     assert_raises "[ -f '$RFC_DIR/42' ]"
     assert_raises "[ ! -f '$XDG_CACHE_HOME/RFCs/42' ]"
 
-    assert "$rfc list" 'RFC 42'
+    assert "$rfc list" 'RFC 42: Message Data Types'
 
     ## == teardown == ##
 
