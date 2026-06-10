@@ -11,6 +11,10 @@ If you don’t use this command, nothing changes for you.
 * Remove the `week`, `month`, and `all` arguments of `rfc sync`; the command
   doesn’t take any argument anymore.
 
+Other changes:
+
+* Fix a regression in 1.0.0 that broke the fallback on `wget` if `curl` wasn’t available
+
 ## v1.0.3 (2026/06/10)
 
 All the changes in this release have been implemented by @baumea.

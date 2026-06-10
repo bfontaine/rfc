@@ -219,7 +219,7 @@ The current one is '"$rfc_dir"'.'
       set -x ;
     fi
 
-    if which curl > /dev/null 2>&1; then
+    if ! which curl > /dev/null 2>&1; then
         if which wget > /dev/null 2>&1; then
           fetch_cmd='wget'
         else
