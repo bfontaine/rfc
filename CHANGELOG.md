@@ -1,5 +1,12 @@
 # rfc Changelog
 
+## v1.0.2 (2026/06/10)
+
+All the changes in this release have been implemented by @baumea.
+
+* Show titles when listing RFCs
+* Add a Bash completion script in `rfc.bash`
+
 ## v1.0.1 (2024/10/28)
 
 * Fix formatting in the manpage ([#22][i22])
