@@ -1,6 +1,6 @@
 # rfc Changelog
 
-## v2.0.0 (unreleased)
+## v2.0.0 (2026/06/10)
 
 This release contains breaking changes on the `rfc sync` command only.
 If you don’t use this command, nothing changes for you.
