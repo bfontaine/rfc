@@ -80,6 +80,7 @@ and can be installed via `zypper in rfc-read`.
 
 ### Requirements
 
+- Bash 3.2+
 - `curl` or `wget`. It uses `$CURL` if it’s set, and fallback on `curl` and then `wget`.
 - `less` or another pager. It uses `$PAGER` if it’s set.
 - `rsync` only if you want to use `rfc sync`
