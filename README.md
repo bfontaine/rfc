@@ -36,6 +36,7 @@ Use `rfc help` to see all available subcommands.
 - `2`: unrecognized option/subcommand
 - `3`: unable to connect to the network
 - `4`: can't find `curl` nor `wget`
+- `5`: `rfc sync` can’t find `rsync`
 
 ## Install
 
@@ -43,7 +44,7 @@ Use `rfc help` to see all available subcommands.
 
 ```sh
 mkdir -p ~/bin
-curl -sL https://raw.githubusercontent.com/bfontaine/rfc/v1.0.1/rfc > ~/bin/rfc
+curl -sL https://raw.githubusercontent.com/bfontaine/rfc/v2.0.0/rfc > ~/bin/rfc
 chmod u+x ~/bin/rfc
 ```
 
@@ -81,6 +82,7 @@ and can be installed via `zypper in rfc-read`.
 
 - `curl` or `wget`. It uses `$CURL` if it’s set, and fallback on `curl` and then `wget`.
 - `less` or another pager. It uses `$PAGER` if it’s set.
+- `rsync` only if you want to use `rfc sync`
 
 ## Customization
 

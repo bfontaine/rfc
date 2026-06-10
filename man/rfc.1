@@ -1,6 +1,6 @@
 .\" generated with Ronn-NG/v0.9.1
 .\" http://github.com/apjanke/ronn-ng/tree/0.9.1
-.TH "RFC" "1" "October 2024" ""
+.TH "RFC" "1" "June 2026" ""
 .SH "NAME"
 \fBrfc\fR \- Read RFCs in your terminal
 .SH "SYNOPSIS"
@@ -15,8 +15,8 @@ Search for <query> in local RFCs using \fBgrep\fR\. Options are passed through\.
 \fBlist\fR
 List locally\-available RFCs\.
 .TP
-\fBsync\fR [week|month|all]
-Batch download RFCs\. \fBweek\fR and \fBmonth\fR respectively download only RFCs that were added or updated during the last week/month\. \fBall\fR (default) downloads all RFCs\. It might take some time; be patient\.
+\fBsync\fR
+Batch download all RFCs using \fBrsync\fR\. It might take some time; be patient\.
 .TP
 \fBclear\fR
 Clear the local cache\.
@@ -40,6 +40,8 @@ Enable the tracing of all Bash commands\. This must be the first argument\.
 3 Network error\.
 .P
 4 Neither \fBcurl\fR nor \fBwget\fR are installed\.
+.P
+5 \fBrsync\fR is not installed\.
 .SH "ENVIRONMENT"
 .TP
 \fBRFC_DIR\fR

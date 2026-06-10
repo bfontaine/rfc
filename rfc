@@ -23,12 +23,13 @@ __rfc() {
     local UNRECOGNIZED_CMD=2
     local NETWORK_ERROR=3
     local NO_CURL_WGET=4
+    local NO_RSYNC=5
 
     # URLs
     local REPO_HOME='https://github.com/bfontaine/rfc'
     local ISSUES_URL='https://github.com/bfontaine/rfc/issues'
 
-    local RFCS_TGZ_BASEURL='https://www.rfc-editor.org/in-notes/tar'
+    local RFCS_RSYNC_URL='rsync.rfc-editor.org::rfcs-text-only'
     local RFCS_BASEURL='https://www.rfc-editor.org/rfc'
     local DRAFTS_BASEURL='https://www.ietf.org/id'
 
@@ -65,26 +66,6 @@ __rfc() {
                     *) return 0 ;;
                 esac ;;
         esac
-    }
-
-    get_ftp_url() {
-        local tmp
-        tmp=$(mktemp)
-        # $1 = pattern of the file we're looking for
-        local pattern="$1"
-        local fetch_exit_code=
-
-        fetch_url "$RFCS_TGZ_BASEURL" "$tmp"
-        fetch_exit_code=$?
-
-        if [ "$fetch_exit_code" -ne 0 ]; then
-          return $fetch_exit_code
-        fi
-
-        # Lines have the following format:
-        #   <li><a href="RFCs0001-0500.tar.gz"> RFCs0001-0500.tar.gz</a></li>
-        # We want this __^^^^^^^^^^^^^^^^^^^^
-        < "$tmp" grep "$pattern" | cut -d'"' -f2
     }
 
     get_rfc() {
@@ -161,43 +142,33 @@ __rfc() {
         return 0
     }
 
-    # rfc sync [week|month|all]
+    # rfc sync
     # shellcheck disable=SC2164
     sync_rfcs() {
-        local name=RFC-all.tar.gz
-        case "$1" in
-            month|30|30days) name=$(get_ftp_url "30daysTo.*gz") ;;
-            week|7|7days)    name=$(get_ftp_url "7daysTo.*gz") ;;
-            all) ;;
-            *)
-              # Support 'sync' without any argument as an alias to 'sync all'
-              if [ ! -z "$1" ]; then
-                echo "Unrecognized 'sync' target: $1"
-                return $UNRECOGNIZED_CMD
-              fi ;;
-        esac
-        # shellcheck disable=SC2181
-        if [ $? -ne 0 ]; then
-          return $?
+        if [ -n "$1" ]; then
+            echo "'sync' doesn't take any argument." >&2
+            return $UNRECOGNIZED_CMD
         fi
 
-        # This shouldn't happen.
-        if [ -z "$name" ]; then
-          echo "I couldn't find the requested archive." >&2
-          echo "Please report this: $ISSUES_URL" >&2
-          return $NOT_FOUND
+        if ! which rsync > /dev/null 2>&1; then
+            echo "Error: 'rfc sync' needs rsync!" >&2
+            return $NO_RSYNC
+        fi
+
+        # --info=progress2 (rsync >= 3.1) shows a single overall progress
+        # line; older rsyncs fall back to listing the transferred files.
+        local progress='-v'
+        if rsync --info=help > /dev/null 2>&1; then
+            progress='--info=progress2'
         fi
 
         mkdir -p "$rfc_dir/_tmp"
-        if fetch_url "$RFCS_TGZ_BASEURL/$name" "$rfc_dir/_tmp/$name"; then
-          :
-        else
-          exit $NETWORK_ERROR
+        if ! rsync -az "$progress" --include='rfc[0-9]*.txt' --exclude='*' \
+            "$RFCS_RSYNC_URL/" "$rfc_dir/_tmp/"; then
+          rm -rf "$rfc_dir/_tmp"
+          return $NETWORK_ERROR
         fi
         cd "$rfc_dir/_tmp"
-        tar -xzf "$name"
-        rm -f "$name"
-        [ -d in-notes ] && cd in-notes
         for f in rfc*.txt; do
             echo "$f" | grep -q '^rfc[0-9]\{1,\}\.txt$'
             if [ "$?" -eq "0" ]; then
@@ -220,10 +191,7 @@ __rfc() {
     rfc search [OPTS] X       # Search for X in local RFCs using grep with OPTS
                                 passed through
     rfc list                  # List locally available RFCs
-    rfc sync [week|month|all] # batch download RFCs. `week` and `month`
-                                respectively download only RFCs that were
-                                added/updated during the last week/month.
-                                `all` (default) downloads all RFCs. It might
+    rfc sync                  # batch download all RFCs using rsync. It might
                                 take some time, be patient.
     rfc clear                 # clear the cache
 

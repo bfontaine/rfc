@@ -17,10 +17,9 @@ re-downloading each RFC every time.
   * `list`:
     List locally-available RFCs.
 
-  * `sync` [week\|month\|all]:
-    Batch download RFCs. `week` and `month` respectively download only RFCs
-    that were added or updated during the last week/month.
-    `all` (default) downloads all RFCs. It might take some time; be patient.
+  * `sync`:
+    Batch download all RFCs using `rsync`. It might take some time; be
+    patient.
 
   * `clear`:
     Clear the local cache.
@@ -48,6 +47,8 @@ re-downloading each RFC every time.
   3  Network error.
 
   4  Neither `curl` nor `wget` are installed.
+
+  5  `rsync` is not installed.
 
 ## ENVIRONMENT
 
