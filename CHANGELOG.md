@@ -1,5 +1,28 @@
 # rfc Changelog
 
+## v2.0.0 (2026/06/10)
+
+This release contains breaking changes on the `rfc sync` command only.
+If you don’t use this command, nothing changes for you.
+
+* `rfc sync` now uses `rsync`, because the RFC Editor website removed the tarballs
+  the previous implementation relied on. It exits with code `5` if `rsync` is not
+  installed.
+* Remove the `week`, `month`, and `all` arguments of `rfc sync`; the command
+  doesn’t take any argument anymore.
+
+Other changes:
+
+* Fix a regression in 1.0.0 that broke the fallback on `wget` if `curl` wasn’t available
+
+## v1.0.3 (2026/06/10)
+
+All the changes in this release have been implemented by @baumea.
+
+* numeric sort cached RFCs (fixes a regression in the previous version)
+* right align numeric RFCs
+* list drafts
+
 ## v1.0.2 (2026/06/10)
 
 All the changes in this release have been implemented by @baumea.

@@ -2,8 +2,6 @@ __punch_complete() {
   local cur=$2
   if [ $COMP_CWORD -eq 1 ]; then
     COMPREPLY=( $(compgen -W "--version --help search list sync clear $(rfc list | cut -d ':' -f 1 | cut -d ' ' -f 2)" -- $cur) )
-  elif [ $COMP_CWORD -eq 2 ] && [ "${COMP_WORDS[1]}" == "sync" ]; then
-    COMPREPLY=( $(compgen -W "week month all" -- $cur) )
   fi
 } &&
 complete -F __punch_complete rfc
