@@ -1,5 +1,12 @@
 # rfc Changelog
 
+## v2.0.1 (2026/08/04)
+
+All the changes in this release have been implemented by @baumea.
+
+* more robust listing of titles
+* improved bash completion
+
 ## v2.0.0 (2026/06/10)
 
 This release contains breaking changes on the `rfc sync` command only.
