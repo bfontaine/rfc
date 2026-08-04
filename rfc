@@ -220,17 +220,6 @@ The current one is '"$rfc_dir"'.'
       set -x ;
     fi
 
-    if ! which curl > /dev/null 2>&1; then
-        if which wget > /dev/null 2>&1; then
-          fetch_cmd='wget'
-        else
-            echo "Error: You need Wget or cURL!"
-            return $NO_CURL_WGET;
-        fi
-    fi
-
-    init_rfc_dir
-
     case "$1" in
 
         -v|--version|version)
@@ -251,16 +240,19 @@ The current one is '"$rfc_dir"'.'
             return 0;;
 
         ls|list)
+            init_rfc_dir
             list
             return 0;;
 
         search|find)
             shift;
+            init_rfc_dir
             search "$@"
             return $?;;
 
         sync|download)
             shift;
+            init_rfc_dir
             sync_rfcs "$@"
             return $?;;
 
@@ -269,11 +261,21 @@ The current one is '"$rfc_dir"'.'
             return 1;;
 
         *)
+        init_rfc_dir
         if grep -q "^$1\$" "$rfc_dir/_404s" 2> /dev/null; then
             print_not_found_error "$1"
             return $NOT_FOUND
 
         elif [ ! -f "$rfc_dir/$1" ]; then
+
+            if ! which curl > /dev/null 2>&1; then
+                if which wget > /dev/null 2>&1; then
+                  fetch_cmd='wget'
+                else
+                    echo "Error: You need Wget or cURL!"
+                    return $NO_CURL_WGET;
+                fi
+            fi
 
             if [[ "$1" == draft* ]]; then
                 get_draft "$1"

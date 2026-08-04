@@ -8,6 +8,9 @@ __rfc_tests() {
 
     local tmp_dir
     local rfc=./rfc
+    local bash_bin
+
+    bash_bin="$(command -v bash)"
 
     tmp_dir="$(mktemp -d)"
     rm -r "$tmp_dir"
@@ -19,6 +22,12 @@ __rfc_tests() {
     ## == tests == ##
 
     # cache directory should not exist before
+    assert_raises "[ ! -d $XDG_CACHE_HOME ]"
+
+    # commands that don't use the cache shouldn't require a downloader or
+    # initialize the cache
+    assert_raises "PATH= '$bash_bin' $rfc --version"
+    assert_raises "PATH= '$bash_bin' $rfc --help"
     assert_raises "[ ! -d $XDG_CACHE_HOME ]"
 
     # `rfc` with no arguments should exit properly
